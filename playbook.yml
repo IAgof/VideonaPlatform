@@ -1,0 +1,45 @@
+---
+- hosts: all
+  vars_files:
+    - vars.yml
+  sudo: true
+  tasks:
+  - shell: /bin/uname -m
+    register: uname_m
+  - shell: /bin/uname -s
+    register: uname_s
+  - shell: /bin/uname -r
+    register: uname_r
+  - name: add docker engine repo key
+    apt_key: keyserver=hkp://p80.pool.sks-keyservers.net:80 id=58118E89F3A912897C070ADBF76221572C52609D
+  - name: add docker engine repo
+    apt_repository: repo='deb http://apt.dockerproject.org/repo ubuntu-trusty main' state=present
+  # - name: update apt cache # seems that apt_repository updates cache :)
+  #   apt: update_cache=yes
+  - name: install required packages
+    apt: name={{ item }} state=present
+    with_items:
+      - docker-engine
+      # - linux-image-extra-{{ uname_r.stdout }} # The linux-image-extra package allows you use the aufs storage driver # package not found!!!
+  #     - apt-transport-https
+  - name: add vagrant user to docker group
+    user: name={{ vagrant_user }} append=yes groups=docker
+    notify:
+      - Kill all ssh connections
+  - name: Kill open ssh sessions # Needed to update docker group membership, needed to run docker compose properly
+    shell: "ps -ef | grep sshd | grep `whoami` | awk '{print \"kill -9\", $2}' | sh"
+    failed_when: false
+  - name: install docker-compose
+    get_url: url=https://github.com/docker/compose/releases/download/1.5.2/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }} dest=/usr/local/bin/docker-compose mode=0555
+  - name: install docker-compose bash autocompletion
+    get_url: url=https://raw.githubusercontent.com/docker/compose/1.5.2/contrib/completion/bash/docker-compose dest=/etc/bash_completion.d/docker-compose
+  - name: Ensure docker service started
+    service: name=docker state=started
+  - name: build docker-compose
+    shell: docker-compose build chdir={{ project_root }}
+    become: yes
+    become_user: "{{ vagrant_user }}"
+  - name: run docker-compose
+    shell: docker-compose up -d chdir={{ project_root }}
+    become: yes
+    become_user: "{{ vagrant_user }}"

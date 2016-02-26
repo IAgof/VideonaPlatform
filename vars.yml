@@ -1,0 +1,4 @@
+---
+project_name: videona_platform
+project_root: /home/{{ vagrant_user }}/{{ project_name }}
+vagrant_user: vagrant

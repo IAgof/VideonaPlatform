@@ -60,3 +60,12 @@ target/
 
 #Ipython Notebook
 .ipynb_checkpoints
+
+# Vagrant local files
+.vagrant
+
+# Pycharm IDE
+.idea/
+
+# Flask instance dir
+instance/
