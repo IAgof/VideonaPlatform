@@ -1,12 +1,17 @@
 import os
-from flask import Flask
+from flask import Flask, Blueprint, current_app
 
 
-app = Flask(__name__)
-app.config.from_object('videona_platform.default_settings')
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object('videona_platform.default_settings')
+    app.logger.debug('Flask instance path is %s' % app.instance_path)
+    app.register_blueprint(bp)
+    return app
 
-app.logger.debug('Flask instance path is %s' % app.instance_path)
+bp = Blueprint('main', __name__)
 
-@app.route('/')
+
+@bp.route('/')
 def hello_world():
     return '#VideonaTime!'
