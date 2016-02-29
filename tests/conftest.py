@@ -6,7 +6,8 @@
     Defines our app fixture
 """
 import pytest
-from videona_platform import create_app
+from videona_platform.factory import create_app
+
 
 @pytest.fixture
 def app():

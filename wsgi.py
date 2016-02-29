@@ -8,7 +8,7 @@
 
 from werkzeug.serving import run_simple
 
-from videona_platform import create_app
+from videona_platform.factory import create_app
 
 application = create_app()
 
