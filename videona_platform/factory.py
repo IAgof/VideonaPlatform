@@ -7,7 +7,7 @@
 """
 from flask import Flask
 from flask_security import SQLAlchemyUserDatastore
-from videona_platform import bp
+from videona_platform.frontend.frontend import front_page_blueprint
 from core import db, migrate, security
 from users import models
 
@@ -24,5 +24,5 @@ def create_app(settings_override=None):
     security.init_app(app, app.user_datastore)
 
     # app.logger.debug('Flask instance path is %s' % app.instance_path)
-    app.register_blueprint(bp)
+    app.register_blueprint(front_page_blueprint)
     return app
