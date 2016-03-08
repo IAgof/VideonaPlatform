@@ -16,12 +16,30 @@
     apt_repository: repo='deb http://apt.dockerproject.org/repo ubuntu-trusty main' state=present
   # - name: update apt cache # seems that apt_repository updates cache :)
   #   apt: update_cache=yes
+  - name: prepare node repos
+    shell: "curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -"
   - name: install required packages
     apt: name={{ item }} state=present
     with_items:
       - docker-engine
+      - nodejs # For react set up. This will now install npm also
+#      - npm # For react set up
+#      - ruby-compass
+      - ruby # this will install gem executable
+      - ruby-dev
+      - build-essential
+#      - compass-susy-plugin # Install sass, compass and susy for styles and grid system
       # - linux-image-extra-{{ uname_r.stdout }} # The linux-image-extra package allows you use the aufs storage driver # package not found!!!
   #     - apt-transport-https
+  - name: link node to nodejs
+    file: src=/usr/bin/nodejs dest=/usr/local/bin/node owner=root group=root state=link
+  - name: install react-tools globally
+    npm: name=react-tools global=yes
+  - name: install compass and susy gems, as compass-susy-plugin seems not work
+    gem: name={{ item }} state=latest user_install=no
+    with_items:
+      - compass
+      - susy
   - name: add vagrant user to docker group
     user: name={{ vagrant_user }} append=yes groups=docker
     notify:
