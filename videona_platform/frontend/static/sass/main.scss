@@ -1,5 +1,7 @@
 @import "base";
 
+p { font-family: 'Roboto', sans-serif; }
+
 main.wrapper {
     @include container;
     height: 100vh;
