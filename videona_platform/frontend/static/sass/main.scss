@@ -1,0 +1,54 @@
+@import "base";
+
+main.wrapper {
+    @include container;
+    height: 100vh;
+    position: relative;
+    font-family: "Helvetica Neue", sans-serif;
+
+/*
+    @media (min-width: 1200px) {
+        @include show-grid(12);
+    }
+    @media (min-width: 900px) {
+        @include show-grid(8);
+    }
+    */
+}
+
+header, article, aside {
+  margin-bottom: gutter();
+}
+
+header {
+    padding: gutter();
+    /*
+    background-color: #FF4CA5; /* Of course, you can define your colours as variables if you prefer! */
+}
+
+article {
+    @include span(8 of 12);
+    padding: 2 * gutter();
+    background-color: #ff007f;
+    /*
+    */
+}
+
+aside {
+    @include span(4 of 12 last);
+    padding: 2 * gutter();
+    background-color: #CC0066;
+    /*
+    */
+}
+
+footer {
+  clear: both;
+  padding: 2em;
+  background-color: #37414f;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  color: #fff;
+}

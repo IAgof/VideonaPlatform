@@ -1,0 +1,16 @@
+{
+  "name": "videona_platform",
+  "version": "0.0.0",
+  "description": "Videona social video platform frontend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "jliarte@gmail.com",
+  "license": "BSD-2-Clause",
+  "dependencies": {
+    "react-dom": "~0.14.7",
+    "babel-preset-react": "~6.5.0",
+    "react": "~0.14.7"
+  }
+}

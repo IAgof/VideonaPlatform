@@ -1,0 +1,49 @@
+@import "susy";
+
+$susy: (
+  container: 1200px,
+  columns: 12,
+  gutters: 1/4,
+  global-box-sizing: border-box,
+  /*
+  debug: (image: show)
+  */
+);
+
+$map-large: (
+  columns: 16,
+  container: auto,
+  gutters: 0,
+  global-box-sizing: border-box
+);
+
+@include border-box-sizing;
+/*
+
+$susy: (
+  flow: ltr,
+  math: fluid,
+  output: float,
+  gutter-position: after,
+  container: 1200px,
+  container-position: center,
+  columns: 12,
+  gutters: 1/4,
+  column-width: false,
+  global-box-sizing: content-box,
+  last-flow: to,
+  debug: (
+    image: show,
+    color: blue,
+    output: overlay,
+    toggle: top right,
+  ),
+  use-custom: (
+    background-image: true,
+    background-options: false,
+    box-sizing: true,
+    clearfix: false,
+    rem: true,
+  )
+);
+*/

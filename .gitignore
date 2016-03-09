@@ -69,3 +69,10 @@ target/
 
 # Flask instance dir
 instance/
+
+# Static caches (npm and sass)
+node_modules/
+.sass-cache/
+
+# Frontend module generated css
+videona_platform/frontend/static/css/
