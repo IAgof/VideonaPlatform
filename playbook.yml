@@ -33,8 +33,11 @@
   #     - apt-transport-https
   - name: link node to nodejs
     file: src=/usr/bin/nodejs dest=/usr/local/bin/node owner=root group=root state=link
-  - name: install react-tools globally
-    npm: name=react-tools global=yes
+  - name: install react-tools and webpack globally
+    npm: name={{ item }} global=yes
+    with_items:
+    - react-tools
+    - webpack
   - name: install compass and susy gems, as compass-susy-plugin seems not work
     gem: name={{ item }} state=latest user_install=no
     with_items:
