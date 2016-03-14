@@ -15,6 +15,9 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import FlatButton from 'material-ui/lib/flat-button'
 import TextField from 'material-ui/lib/text-field'
 
+import VideoCard from './modules/video_card'
+
+
 const SignupButton = () => (
   <RaisedButton label="Signup" href="/" hoverColor="#ddd" primary="true" />
 );
@@ -80,6 +83,16 @@ const VideoExploreBackground = () => (
     />
     );
 
+const VideoExplore = () => (
+    <div class="video_explore">
+        <VideoCard video_name="Video de aqui" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160310_163353.mp4" />
+        <VideoCard video_name="Vide o dos" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181755.mp4" />
+        <VideoCard video_name="O video del mamoor" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181254.mp4" />
+        {/*
+        */}
+    </div>
+);
+
 export default SignupButton;
 
 const loadedStates = ['complete', 'loaded', 'interactive'];
@@ -93,5 +106,5 @@ function run() {
     ReactDOM.render(<UserButtonsContainer />, document.getElementsByClassName('navigation-bar__auth-block')[0]);
     ReactDOM.render(<SearchField />, document.getElementsByClassName('search-form-container')[0]);
     ReactDOM.render(<VideoExploreBackground />, document.getElementsByClassName('explore-header__video-container')[0]);
-
+    ReactDOM.render(<VideoExplore />, document.getElementsByClassName('article-content')[0])
 }
