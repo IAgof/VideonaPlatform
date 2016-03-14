@@ -1,0 +1,113 @@
+header {
+    /*
+    @include container(80%);
+    background-color: #FF4CA5;
+    /* Of course, you can define your colours as variables if you prefer! */
+    position: absolute;
+    top: 0;
+}
+
+
+
+/* ==========================================================================
+   Header layout
+   ========================================================================== */
+
+.navigation-bar {
+}
+
+.explore-header {
+}
+
+.navigation-bar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    color: #fff;
+    /*
+    height: 100%;
+    border: 1px solid red;
+    display: inline-block;
+    */
+}
+
+/*
+navigation-bar__video
+*/
+.navigation-bar__logo {
+    @include span(2 of 12);
+}
+
+.navigation-bar__slogan {
+    @include span(5 of 12);
+}
+
+.navigation-bar__auth-block {
+    @include span(5 of 12 last);
+    text-align: right;
+}
+
+
+/* ==========================================================================
+   Header navbar
+   ========================================================================== */
+@import "compass/css3/transition";
+
+.navigation-bar__logo {
+    .logo {
+        width: 35px;
+        overflow: hidden;
+    }
+}
+
+.explore-header {
+    text-align: center;
+    color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 350px;
+    @include transition(width, .5s, ease-in);
+    background-image: url("https://pbs.twimg.com/media/Ccihk4UW0AAFHkG.jpg");
+    background-size: cover;
+    background-position: center center;
+
+    &__content {
+        margin-top: 100px;
+        .logo {
+            width: 350px;
+        }
+        .subtitle {
+            font-size: 20px;
+        }
+    }
+}
+
+.explore-header__video-container {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.explore-header__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.search-form-container__search {
+    input {
+        color: white;
+    }
+}

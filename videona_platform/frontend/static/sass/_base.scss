@@ -1,12 +1,14 @@
 @import "susy";
 
 $susy: (
+/*
   container: 1200px,
+*/
   columns: 12,
   gutters: 1/4,
   global-box-sizing: border-box,
-  /*
   debug: (image: show)
+  /*
   */
 );
 

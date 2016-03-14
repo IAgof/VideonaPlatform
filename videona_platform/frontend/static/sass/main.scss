@@ -1,4 +1,6 @@
 @import "base";
+@import "vars";
+@import "modules/header";
 
 p { font-family: 'Roboto', sans-serif; }
 
@@ -6,6 +8,7 @@ main.wrapper {
     @include container;
     height: 100vh;
     position: relative;
+    top: 0;
     font-family: "Helvetica Neue", sans-serif;
 
 /*
@@ -23,34 +26,47 @@ header, article, aside {
 }
 
 header {
+    @include span(12 of 12);
+
     padding: gutter();
     /*
+    @include container(80%);
     background-color: #FF4CA5; /* Of course, you can define your colours as variables if you prefer! */
 }
 
 article {
-    @include span(8 of 12);
+    @include span(12 of 12);
     padding: 2 * gutter();
-    background-color: #ff007f;
     /*
+    background-color: #ff007f;
     */
 }
 
+/*
 aside {
     @include span(4 of 12 last);
     padding: 2 * gutter();
     background-color: #CC0066;
-    /*
-    */
 }
+*/
 
 footer {
   clear: both;
   padding: 2em;
   background-color: #37414f;
-  position: absolute;
+  position: relative;
   bottom: 0;
   left: 0;
   width: 100%;
   color: #fff;
+}
+
+
+.navbar-header logo {
+    background-color: #CC0066;
+}
+
+/**/
+article, aside {
+    margin-top: 350px;
 }
