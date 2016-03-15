@@ -1,3 +1,5 @@
+@import "compass/css3/border-radius";
+
 header {
     /*
     @include container(80%);
@@ -38,14 +40,23 @@ navigation-bar__video
 */
 .navigation-bar__logo {
     @include span(2 of 12);
+    @include breakpoint(phablet) {
+        @include span(4 of 12);
+    }
 }
 
 .navigation-bar__slogan {
     @include span(5 of 12);
+    @include breakpoint(phablet) {
+        @include span(4 of 12);
+    }
 }
 
 .navigation-bar__auth-block {
     @include span(5 of 12 last);
+    @include breakpoint(phablet) {
+        @include span(4 of 12 last);
+    }
     text-align: right;
 }
 
@@ -59,6 +70,21 @@ navigation-bar__video
     .logo {
         width: 35px;
         overflow: hidden;
+        @include breakpoint(phablet) {
+            width: auto;
+            overflow: show;
+        }
+    }
+}
+
+@import "vars";
+
+.navigation-bar__auth-block {
+    .login-button-container {
+        display: None;
+        @include breakpoint(phablet) {
+            display: inline-block;
+        }
     }
 }
 
@@ -77,11 +103,28 @@ navigation-bar__video
 
     &__content {
         margin-top: 100px;
+        text-align: center;
         .logo {
             width: 350px;
+            @include breakpoint(tablet) {
+                width: 520px;
+            }
         }
         .subtitle {
             font-size: 20px;
+        }
+        .search-form-container {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 5px 15px;
+            @include border-radius(4px, 4px);
+            background-color: rgba(0,0,0,0.3);
+            @include breakpoint(phablet) {
+                width: 520px;
+            }
+            @include breakpoint(laptop) {
+                width: 720px;
+            }
         }
     }
 }

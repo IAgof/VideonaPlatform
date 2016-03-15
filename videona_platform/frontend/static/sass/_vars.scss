@@ -7,3 +7,27 @@ $color_secondary: #11a982;
 $color_kamarada_welcome1: #de981c;
 $color_kamarada_welcome2: #d2634f;
 $color_kamarada_welcome3: #6fc4ac;
+
+/* ==========================================================================
+   Breakpoints
+   ========================================================================== */
+
+
+@mixin breakpoint($point) {
+    @if $point == desktop {
+        @media (min-width: 70em) { @content ; }
+    }
+    @else if $point == laptop {
+        @media (min-width: 64em) { @content ; }
+    }
+    @else if $point == tablet {
+        @media (min-width: 50em) { @content ; }
+    }
+    @else if $point == phablet {
+        @media (min-width: 37.5em)  { @content ; }
+    }
+    @else if $point == mobileonly {
+        @media (max-width: 37.5em)  { @content ; }
+    }
+}
+

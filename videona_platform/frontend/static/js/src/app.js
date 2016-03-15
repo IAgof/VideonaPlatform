@@ -11,26 +11,11 @@ injectTapEventPlugin();
 import React from 'react'
 import ReactDOM from 'react'
 import ReactDriveIn from 'react-drive-in';
-import RaisedButton from 'material-ui/lib/raised-button';
-import FlatButton from 'material-ui/lib/flat-button'
 import TextField from 'material-ui/lib/text-field'
 
 import VideoCard from './modules/video_card'
 
 
-const SignupButton = () => (
-  <RaisedButton label="Signup" href="/" hoverColor="#ddd" primary="true" />
-);
-
-const LoginButton = () => (
-  <FlatButton label="Login" href="/login" hoverColor="#ddd" secondary="true" />
-);
-
-const UserButtonsContainer = () => (
-    <div class="navbar-login-buttons__container">
-        <SignupButton /> <LoginButton />
-    </div>
-);
 
 const SearchField = () => (
     <TextField
@@ -41,7 +26,11 @@ const SearchField = () => (
         }}
         inputStyle={{
             color: '#fff'
-        }}/>
+        }}
+        style={{
+            width: "100%"
+        }}
+        />
 );
 
 
@@ -84,7 +73,7 @@ const VideoExploreBackground = () => (
     );
 
 const VideoExplore = () => (
-    <div class="video_explore">
+    <div className="video_explore">
         <VideoCard video_name="Video de aqui" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160310_163353.mp4" />
         <VideoCard video_name="Vide o dos" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181755.mp4" />
         <VideoCard video_name="O video del mamoor" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181254.mp4" />
@@ -93,14 +82,14 @@ const VideoExplore = () => (
     </div>
 );
 
-export default SignupButton;
-
 const loadedStates = ['complete', 'loaded', 'interactive'];
 if (loadedStates.includes(document.readyState) && document.body) {
   run();
 } else {
   window.addEventListener('DOMContentLoaded', run, false);
 }
+
+import UserButtonsContainer from './modules/auth_block'
 
 function run() {
     ReactDOM.render(<UserButtonsContainer />, document.getElementsByClassName('navigation-bar__auth-block')[0]);

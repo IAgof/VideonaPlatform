@@ -37,8 +37,8 @@ header {
 
 article {
     @include span(12 of 12);
-    padding: 2 * gutter();
     /*
+    padding: 2 * gutter();
     background-color: #ff007f;
     */
 }

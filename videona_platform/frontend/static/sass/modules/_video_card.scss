@@ -6,5 +6,19 @@
     top: 0;
     left: 0;
     z-index: 1;
+}
 
+.video-card {
+    @include span(12 of 12);
+    @include breakpoint(phablet) {
+        @include gallery(6 of 12);
+    }
+    @include breakpoint(tablet) {
+        @include gallery(4 of 12);
+    }
+    @include breakpoint(laptop) {
+        @include gallery(3 of 12);
+    }
+    /*
+    */
 }
