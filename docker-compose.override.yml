@@ -1,0 +1,5 @@
+# compose override settings for using in dev environment
+web:
+  volumes:
+    - ./:/usr/src/app/
+
