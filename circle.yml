@@ -1,0 +1,14 @@
+machine:
+  python:
+    version: 2.7.11
+dependencies:
+  post:
+    - pip install -r dev_requirements.txt
+test:
+  override:
+    - py.test
+deployment:
+  dockerhub:
+    branch: master
+    commands:
+      - $TRIGGER_DOCKER_HUB_BUILD
