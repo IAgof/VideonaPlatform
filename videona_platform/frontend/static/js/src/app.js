@@ -64,6 +64,7 @@ const PLAYLIST_LOCAL = [
 ];
 
 var playlist_local = PLAYLIST_LOCAL
+var playlist = PLAYLIST_AWS
 
 const VideoExploreBackground = () => (
     <ReactDriveIn
