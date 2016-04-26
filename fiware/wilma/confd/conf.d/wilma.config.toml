@@ -1,0 +1,17 @@
+[template]
+src = "template.wilma.config.js.tmpl"
+dest = "/opt/fiware-pep-proxy/config.js"
+keys = [
+    "/wilma/http/port",
+    "/wilma/https/port",
+    "/wilma/account-host",
+    "/cert/file",
+    "/key/file",
+    "/keystone/host",
+    "/keystone/port",
+    "/app/host",
+    "/app/port",
+    "/idm/user",
+    "/idm/password",
+    "/public/path",
+]

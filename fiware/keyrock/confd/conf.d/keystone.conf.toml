@@ -1,0 +1,9 @@
+[template]
+src = "keystone.conf"
+dest = "/keystone/etc/keystone.conf"
+keys = [
+    "/keystone/admin/token",
+    "/keystone/admin/port",
+    "/keystone/port",
+    "/keystone/token/expiration",
+]

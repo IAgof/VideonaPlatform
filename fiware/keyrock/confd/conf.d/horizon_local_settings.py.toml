@@ -1,0 +1,14 @@
+[template]
+src = "horizon_local_settings.py"
+dest = "/horizon/openstack_dashboard/local/local_settings.py"
+keys = [
+    "/keystone/port",
+    "/horizon/email/from",
+    "/horizon/email/url",
+    "/horizon/email/subjectprefix",
+    "/horizon/email/listtype",
+    "/horizon/email/host",
+    "/horizon/email/port",
+    "/horizon/email/user",
+    "/horizon/email/pwd",
+]

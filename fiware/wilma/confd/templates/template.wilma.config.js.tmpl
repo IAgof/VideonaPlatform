@@ -1,0 +1,52 @@
+var config = {};
+
+config.pep_port = {{getv "/wilma/http/port"}};
+
+// Set this var to undefined if you don't want the server to listen on HTTPS
+config.https = {
+    enabled: false,
+    cert_file: '{{ getv "/cert/file" }}',
+    key_file: '{{ getv "/key/file" }}',
+    port: {{ getv "/wilma/https/port" }}
+};
+//config.https = undefined;
+
+//Keyrock IdM configuration
+config.account_host = '{{ getv "/wilma/account-host" }}';
+config.keystone_host = '{{ getv "/keystone/host" }}';
+config.keystone_port = {{ getv "/keystone/port" }};
+//Shielded app configuration
+config.app_host = '{{ getv "/app/host" }}';
+config.app_port = '{{ getv "/app/port" }}';
+// Use true if the app server listens in https
+config.app_ssl = false;
+
+// Credentials obtained when registering PEP Proxy in Account Portal
+config.username = '{{ getv "/idm/user" }}';
+config.password = '{{ getv "/idm/password" }}';
+
+// in seconds
+config.chache_time = 300;
+
+// if enabled PEP checks permissions with AuthZForce GE.
+// only compatible with oauth2 tokens engine
+//
+// you can use custom policy checks by including programatic scripts
+// in policies folder. An script template is included there
+config.azf = {
+	enabled: false,
+    host: 'auth.lab.fiware.org',
+    port: 6019,
+    path: '/authzforce/domains/',
+    custom_policy: undefined // use undefined to default policy checks (HTTP verb + path).
+};
+
+// list of paths that will not check authentication/authorization
+// example: ['/public/*', '/static/css/']
+config.public_paths = [{{range getvs "/public/path/*"}} '{{.}}', {{else}}  {{end}}];
+
+// options: oauth2/keystone
+config.tokens_engine = 'keystone';
+config.magic_key = undefined;
+
+module.exports = config;

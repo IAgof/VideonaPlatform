@@ -5,9 +5,9 @@ web:
     - "8000"
   links:
     - postgres:postgres
-#  volumes:
-#    - ./:/usr/src/app/
   env_file: .env
+  environment:
+    - FIWARE_INSTALLED=False
   command: /usr/src/app/run_project.sh
 
 nginx:
