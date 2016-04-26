@@ -47,20 +47,20 @@
     user: name={{ vagrant_user }} append=yes groups=docker
     notify:
       - Kill all ssh connections
-  - name: Kill open ssh sessions # Needed to update docker group membership, needed to run docker compose properly
-    shell: "ps -ef | grep sshd | grep `whoami` | awk '{print \"kill -9\", $2}' | sh"
-    failed_when: false
+#  - name: Kill open ssh sessions # Needed to update docker group membership, needed to run docker compose properly
+#    shell: "ps -ef | grep sshd | grep `whoami` | awk '{print \"kill -9\", $2}' | sh"
+#    failed_when: false
   - name: install docker-compose
-    get_url: url=https://github.com/docker/compose/releases/download/1.5.2/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }} dest=/usr/local/bin/docker-compose mode=0555
+    get_url: url=https://github.com/docker/compose/releases/download/1.7.0/docker-compose-{{ uname_s.stdout }}-{{ uname_m.stdout }} dest=/usr/local/bin/docker-compose mode=0555
   - name: install docker-compose bash autocompletion
-    get_url: url=https://raw.githubusercontent.com/docker/compose/1.5.2/contrib/completion/bash/docker-compose dest=/etc/bash_completion.d/docker-compose
+    get_url: url=https://raw.githubusercontent.com/docker/compose/1.7.0/contrib/completion/bash/docker-compose dest=/etc/bash_completion.d/docker-compose
   - name: Ensure docker service started
     service: name=docker state=started
-  - name: build docker-compose
-    shell: docker-compose build chdir={{ project_root }}
-    become: yes
-    become_user: "{{ vagrant_user }}"
-  - name: run docker-compose
-    shell: docker-compose up -d chdir={{ project_root }}
-    become: yes
-    become_user: "{{ vagrant_user }}"
+#  - name: build docker-compose
+#    shell: docker-compose build chdir={{ project_root }}
+#    become: yes
+#    become_user: "{{ vagrant_user }}"
+#  - name: run docker-compose
+#    shell: docker-compose up -d chdir={{ project_root }}
+#    become: yes
+#    become_user: "{{ vagrant_user }}"

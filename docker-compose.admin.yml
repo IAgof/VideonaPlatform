@@ -1,0 +1,6 @@
+version: '2'
+services:
+  testrunner:
+    build:
+      context: .
+      dockerfile: ./tests/Dockerfile
