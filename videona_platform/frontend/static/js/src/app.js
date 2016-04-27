@@ -14,6 +14,7 @@ import ReactDriveIn from 'react-drive-in';
 import TextField from 'material-ui/lib/text-field'
 
 import VideoCard from './modules/video_card'
+import LoginCard from './modules/login_card'
 
 
 
@@ -97,4 +98,5 @@ function run() {
     ReactDOM.render(<SearchField />, document.getElementsByClassName('search-form-container')[0]);
     ReactDOM.render(<VideoExploreBackground />, document.getElementsByClassName('explore-header__video-container')[0]);
     ReactDOM.render(<VideoExplore />, document.getElementsByClassName('article-content')[0])
+    ReactDOM.render(<LoginCard />, document.getElementsByClassName('login-wrapper')[0])
 }
