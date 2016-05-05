@@ -1,81 +1,83 @@
-web:
-  links:
-    - keyrock
-    - orion
-    - poi
-  environment:
-    - FIWARE_INSTALLED=True
-    - FLASK_ENV=production
-#    - DATABASE_URL=postgresql://postgres:postgres@postgres/videona-platform
-    - KEYROCK_HOST=http://keyrock
-    - ORION_HOST=orion
-    - ORION_PORT=1026
-    - POI_HOST=poi
+version: '2'
+services:
+  web:
+    links:
+      - keyrock
+      - orion
+      - poi
+    environment:
+      - FIWARE_INSTALLED=True
+      - FLASK_ENV=production
+  #    - DATABASE_URL=postgresql://postgres:postgres@postgres/videona-platform
+      - KEYROCK_HOST=http://keyrock
+      - ORION_HOST=orion
+      - ORION_PORT=1026
+      - POI_HOST=poi
 
-# Keyrock idm
-# doc at https://hub.docker.com/r/fiware/idm/
-keyrock:
-  build: ./fiware/keyrock
-  ports:
-    - "7003:7003" # Changed in conf file
-    - "8000:8000"
+  # Keyrock idm
+  # doc at https://hub.docker.com/r/fiware/idm/
+  keyrock:
+    build: ./fiware/keyrock
+    ports:
+      - "7003:7003" # Changed in conf file
+      - "8000:8000"
 
-# Context broker
-# doc at https://hub.docker.com/r/fiware/orion/
-mongo-data:
-  image: mongo:2.6
-  volumes:
-    - /data/db
-  command: "true"
+  # Context broker
+  # doc at https://hub.docker.com/r/fiware/orion/
+  mongo-data:
+    image: mongo:2.6
+    volumes:
+      - /data/db
+    command: "true"
 
-mongo:
-   image: mongo:2.6
-   volumes_from:
-    - mongo-data
-   command: --smallfiles --nojournal
+  mongo:
+     image: mongo:2.6
+     volumes_from:
+      - mongo-data
+     command: --smallfiles --nojournal
 
-orion:
-  image: fiware/orion
-  links:
-    - mongo
-  ports:
-    - "1026:1026"
-  command: -dbhost mongo
+  orion:
+    image: fiware/orion
+    links:
+      - mongo
+    ports:
+      - "1026:1026"
+    command: -dbhost mongo
 
-# Wilma PEP proxy
-# doc at https://hub.docker.com/r/ging/fiware-pep-proxy/
-# repo at https://github.com/ging/fiware-pep-proxy
-wilma:
-  build: ./fiware/wilma
-#  image: ging/fiware-pep-proxy
-  links:
-    - keyrock
-    - web
-  environment:
-    - KEYSTONE_HOST=http://keyrock
-    - KEYSTONE_PORT=7003
-    - APP_HOST=web
-    - APP_PORT=7002
-    - IDM_USER=idm_user
-    - IDM_PASSWORD=idm
-  ports:
-    - "7010:7010"
-    - "7443:7443"
+  # Wilma PEP proxy
+  # doc at https://hub.docker.com/r/ging/fiware-pep-proxy/
+  # repo at https://github.com/ging/fiware-pep-proxy
+  wilma:
+    build: ./fiware/wilma
+  #  image: ging/fiware-pep-proxy
+    links:
+      - keyrock
+      - web
+    environment:
+      - KEYSTONE_HOST=http://keyrock
+      - KEYSTONE_PORT=7003
+      - APP_HOST=web
+      - APP_PORT=7002
+      - IDM_USER=idm_user
+      - IDM_PASSWORD=idm
+    ports:
+      - "7010:7010"
+      - "7443:7443"
 
-# POI data provider
-# doc at https://hub.docker.com/r/ariokkon/fiware_poi_dataprovider/
-# repo at https://github.com/Chiru/FIWARE-POIDataProvider/
-# Dockerfile https://github.com/Chiru/FIWARE-POIDataProvider/blob/master/docker/Dockerfile
-poi:
-  image: ariokkon/fiware_poi_dataprovider
-  ports:
-    - "8099:80"
-  volumes_from:
-    - poi-data
+  # POI data provider
+  # doc at https://hub.docker.com/r/ariokkon/fiware_poi_dataprovider/
+  # repo at https://github.com/Chiru/FIWARE-POIDataProvider/
+  # Dockerfile https://github.com/Chiru/FIWARE-POIDataProvider/blob/master/docker/Dockerfile
+  poi:
+    image: ariokkon/fiware_poi_dataprovider
+    ports:
+      - "8099:80"
+    volumes_from:
+      - poi-data
 
-poi-data:
-  image: ariokkon/fiware_poi_dataprovider
-  volumes:
-    - /var/lib/postgresql
-    - /var/lib/mongodb
-  command: "true"
+  poi-data:
+    image: ariokkon/fiware_poi_dataprovider
+    volumes:
+      - /var/lib/postgresql
+      - /var/lib/mongodb
+    command: "true"
