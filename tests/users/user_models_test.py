@@ -120,7 +120,7 @@ class TestUserModels(object):
 
 class TestSecurityConfig(object):
     def test_security_trackable_option_is_activated(self):
-        assert_that(videona_platform.default_settings.SECURITY_TRACKABLE, is_(True))# -*- coding: utf-8 -*-
+        assert_that(videona_platform.default_settings.SECURITY_TRACKABLE, is_(True))
 
 
     def test_secure_extension_declared_in_core(self):
