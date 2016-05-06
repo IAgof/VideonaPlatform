@@ -3,7 +3,7 @@
 @import "mixins";
 @import "modules/header";
 @import "modules/video_card";
-@import "modules/login_card";
+@import "modules/login_dialog";
 
 p { font-family: 'Roboto', sans-serif; }
 
@@ -78,3 +78,8 @@ article, aside {
 /* ==========================================================================
    Other
    ========================================================================== */
+.videona-logo-md {
+    width: 500px;
+    height: 100px;
+    background: url('/frontend/static/img/videona_big.png');
+}

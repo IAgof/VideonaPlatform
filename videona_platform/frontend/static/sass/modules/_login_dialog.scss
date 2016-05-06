@@ -11,7 +11,9 @@
 }
 
 
-.login-card {
+.login-form {
+    @include container;
+
     width: 420px;
     heigth: 350px;
     padding: 20px;
@@ -34,15 +36,18 @@
 }
 
 
-.login-card__username {
+.login-form__username {
+    @include span(12 of 12);
     display: inline-block;
 }
 
-.login-card__password {
+.login-form__password {
+    @include span(12 of 12);
     display: inline-block;
 }
 
-.login-card__login-button {
+.login-form__login-button {
+    @include span(12 of 12);
     display: inline-block;
     text-align: right;
 }

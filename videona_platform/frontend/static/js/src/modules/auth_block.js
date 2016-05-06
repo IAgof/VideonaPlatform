@@ -7,15 +7,29 @@ import VideonaRawTheme from '../material_theme';
 
 
 class SignupButton extends React.Component {
+    constructor(props) {
+        super(props)
+        this.handleOpen = this.handleOpen.bind(this)
+    }
+
+    handleOpen() {
+        console.log('touched')
+        alert('cant touch this!')
+    }
+
     getChildContext() {
         return {
             muiTheme: ThemeManager.getMuiTheme(VideonaRawTheme)
         };
     }
 
+    handleTouch() {
+    }
+
     render()  {
         return (
-            <RaisedButton label="Signup" href="/" hoverColor="#ddd" className="signup-button" primary="true" />
+            <RaisedButton label="Signup" href="/" hoverColor="#ddd" className="signup-button"
+            primary={true} onTouchTap={this.handleOpen} />
         );
     }
 };
@@ -28,7 +42,7 @@ SignupButton.childContextTypes = {
 
 class LoginButton extends React.Component {
     render() {
-        return (<FlatButton label="Login" href="/login" className="login-button" hoverColor="#ddd" secondary="true" />)
+        return (<FlatButton label="Login" href="/login" className="login-button" hoverColor="#ddd" secondary={true} />)
     }
 }
 
