@@ -6,6 +6,7 @@
     Videona Platform User models
 """
 from videona_platform.core import db
+from flask_security import UserMixin, RoleMixin
 
 
 roles_users = db.Table('roles_users',
@@ -13,7 +14,7 @@ roles_users = db.Table('roles_users',
                        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     # __tablename__ = ''
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -33,7 +34,7 @@ class User(db.Model):
         return '<User: %s>' % self.username
 
 
-class Role(db.Model):
+class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
