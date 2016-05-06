@@ -65,22 +65,29 @@ class LoginForm extends React.Component {
         e.preventDefault()
         var username = this.state.username.trim();
         var password = this.state.password.trim();
-        var data = {username: username, password: password}
+        var csrftoken = $('meta[name=csrf-token]').attr('content')
+        var data = {email: username, password: password, csrf_token: csrftoken}
 //        if (!text || !author) {
 //          return;
 //        }
         $.ajax({
 //            url: this.props.url,
-            url: '/login',
+            url: 'login',
+            contentType: "application/json",
             dataType: 'json',
             type: 'POST',
-            data: data,
+            data: JSON.stringify(data),
+//            beforeSend: function(xhr, settings) {
+//                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+//                    xhr.setRequestHeader("X-CSRFToken", csrftoken)
+//                }
+//            }.bind(this),
             success: function(data) {
+                console.log('/login SUCCESS', data)
                 this.setState({data: data});
             }.bind(this),
             error: function(xhr, status, err) {
-//                console.error(this.props.url, status, err.toString());
-                console.error('/login ', status, err.toString());
+                console.error(url, ' ', status, ' - ', err.toString());
             }.bind(this)
         });
 //        this.setState({author: '', text: ''});

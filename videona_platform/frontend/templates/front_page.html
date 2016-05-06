@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ url_for ('front_page.static', filename='css/screen.css')}}"/>
     <link rel="stylesheet" href="{{ url_for ('front_page.static', filename='css/main.css')}}"/>
     <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css'>
