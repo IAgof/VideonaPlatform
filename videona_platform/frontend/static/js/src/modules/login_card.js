@@ -72,7 +72,7 @@ class LoginForm extends React.Component {
 //        }
         $.ajax({
 //            url: this.props.url,
-            url: 'login',
+            url: 'api/v1/auth',
             contentType: "application/json",
             dataType: 'json',
             type: 'POST',
