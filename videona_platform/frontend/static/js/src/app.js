@@ -14,8 +14,6 @@ import ReactDriveIn from 'react-drive-in';
 import TextField from 'material-ui/lib/text-field'
 
 import VideoCard from './modules/video_card'
-import LoginCard from './modules/login_card'
-import LoginDialog from './modules/login_card'
 
 
 
@@ -92,10 +90,11 @@ if (loadedStates.includes(document.readyState) && document.body) {
   window.addEventListener('DOMContentLoaded', run, false);
 }
 
+import UserButtonsContainer from './modules/auth_block'
+
 function run() {
-    var auth_block = document.getElementsByClassName('navigation-bar__auth-block')[0]
+    ReactDOM.render(<UserButtonsContainer />, document.getElementsByClassName('navigation-bar__auth-block')[0]);
     ReactDOM.render(<SearchField />, document.getElementsByClassName('search-form-container')[0]);
     ReactDOM.render(<VideoExploreBackground />, document.getElementsByClassName('explore-header__video-container')[0]);
     ReactDOM.render(<VideoExplore />, document.getElementsByClassName('article-content')[0])
-    ReactDOM.render(<LoginDialog />, auth_block)
 }

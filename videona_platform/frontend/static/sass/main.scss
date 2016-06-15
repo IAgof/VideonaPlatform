@@ -1,9 +1,7 @@
 @import "base";
 @import "vars";
-@import "mixins";
 @import "modules/header";
 @import "modules/video_card";
-@import "modules/login_dialog";
 
 p { font-family: 'Roboto', sans-serif; }
 
@@ -72,14 +70,4 @@ footer {
 /**/
 article, aside {
     margin-top: 350px;
-}
-
-
-/* ==========================================================================
-   Other
-   ========================================================================== */
-.videona-logo-md {
-    width: 500px;
-    height: 100px;
-    background: url('/frontend/static/img/videona_big.png');
 }

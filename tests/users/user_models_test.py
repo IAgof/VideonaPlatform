@@ -5,14 +5,13 @@
 
     Tests for Videona Platform user Models and configuration
 """
-import pytest
-from hamcrest import *
 from datetime import datetime, timedelta
-from flask_security import Security, SQLAlchemyUserDatastore, UserMixin, RoleMixin
-import videona_platform.default_settings
-import videona_platform.core
-from videona_platform.users import models
+
+from flask_security import UserMixin, RoleMixin
+from hamcrest import *
+
 from tests import factories
+from videona_platform.users import models
 
 
 class TestUserModels(object):
@@ -123,27 +122,3 @@ class TestUserModels(object):
         assert_that(len(saved_user.roles), is_(2))
         assert_that(saved_user.roles[0], is_in(roles))
         assert_that(saved_user.roles[1], is_in(roles))
-
-
-class TestSecurityConfig(object):
-    def test_security_trackable_option_is_activated(self):
-        assert_that(videona_platform.default_settings.SECURITY_TRACKABLE, is_(True))
-        assert_that(videona_platform.default_settings.SECURITY_REGISTERABLE, is_(True))
-
-    def test_secure_extension_declared_in_core(self):
-        assert_that(videona_platform.core.security, instance_of(Security))
-
-
-    def test_app_has_user_datastore(self, app):
-        assert_that(app.user_datastore, instance_of(SQLAlchemyUserDatastore))
-        assert_that(app.user_datastore.db, is_(videona_platform.core.db))
-        assert_that(app.user_datastore.user_model, equal_to(models.User))
-        assert_that(app.user_datastore.role_model, equal_to(models.Role))
-
-
-    def test_app_security_is_initialized(self, app):
-        assert_that('security', is_in(app.extensions))
-        security = app.extensions['security']
-
-        assert_that(security.app, is_(app))
-        assert_that(security.datastore, is_(app.user_datastore))

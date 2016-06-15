@@ -6,7 +6,7 @@
     videona_platform settings module
 """
 import os
-
+from datetime import timedelta
 
 DEBUG = os.environ.get('DEBUG', False)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'super-secret-key')
@@ -31,3 +31,7 @@ SECURITY_RESET_SALT = 'reset_salt'
 SECURITY_RESET_WITHIN = '5 days'
 SECURITY_CONFIRM_WITHIN = '5 days'
 SECURITY_SEND_REGISTER_EMAIL = False
+
+JWT_EXPIRATION_DELTA = timedelta(days=30)
+JWT_AUTH_URL_RULE = '/api/v1/auth'
+WTF_CSRF_CHECK_DEFAULT = False
