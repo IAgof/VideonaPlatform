@@ -51,35 +51,35 @@ const PLAYLIST_AWS = [
     [ "https://s3.amazonaws.com/tiedots/clips/V_EDIT_20160310_163353.mp4", ],
 ];
 
-const PLAYLIST_LOCAL = [
-    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182238.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182251.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_000134.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182336.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182311.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181002.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181254.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181403.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181755.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_182114.mp4", ],
-    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160310_163353.mp4", ],
-];
+//const PLAYLIST_LOCAL = [
+//    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182238.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182251.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_000134.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182336.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182311.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181002.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181254.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181403.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181755.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_182114.mp4", ],
+//    [ "http://localhost:8000/frontend/static/img/clips/V_EDIT_20160310_163353.mp4", ],
+//];
 
-var playlist_local = PLAYLIST_LOCAL
+//var playlist_local = PLAYLIST_LOCAL
 var playlist = PLAYLIST_AWS
 
 const VideoExploreBackground = () => (
     <ReactDriveIn
-        showPlaylist={playlist_local}
+        showPlaylist={playlist}
         poster="https://v.cdn.vine.co/r/videos/BC1E72F54B1162065918138945536_334a62eeb04.1.4.13857093735400334228.mp4.jpg?versionId=1UnOMXNrM.LUbruTLS7no74m63ee4yYF"
     />
     );
 
 const VideoExplore = () => (
     <div className="video_explore">
-        <VideoCard video_name="Video de aqui" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160310_163353.mp4" />
-        <VideoCard video_name="Vide o dos" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181755.mp4" />
-        <VideoCard video_name="O video del mamoor" video_file="http://localhost:8000/frontend/static/img/clips/V_EDIT_20160303_181254.mp4" />
+        <VideoCard video_name="Video de aqui" video_file="https://s3.amazonaws.com/tiedots/clips/V_EDIT_20160310_163353.mp4" />
+        <VideoCard video_name="Vide o dos" video_file="https://s3.amazonaws.com/tiedots/clips/V_EDIT_20160303_181755.mp4" />
+        <VideoCard video_name="O video del mamoor" video_file="https://s3.amazonaws.com/tiedots/clips/V_EDIT_20160303_181254.mp4" />
         {/*
         */}
     </div>
