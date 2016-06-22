@@ -96,5 +96,21 @@ class TestJWTHandlers(object):
         assert_that(found_user, is_(user))
 
 
-    def test_load_user(self):
-        assert_that(load_user(), none())
+    @mock.patch('videona_platform.factory.user_datastore.find_user')
+    def test_load_user_find_user_from_datastore(self, find_user):
+        payload = {'identity': 'user_id'}
+
+        load_user(payload)
+
+        find_user.assert_called_once_with(id='user_id')
+
+
+    @mock.patch('videona_platform.factory.user_datastore.find_user')
+    def test_load_user_returns_found_user_from_user_datastore(self, find_user):
+        user = factories.UserFactory()
+        find_user.return_value = user
+        payload = {'identity': 'user_id'}
+
+        found_user = load_user(payload)
+
+        assert_that(found_user, is_(user))

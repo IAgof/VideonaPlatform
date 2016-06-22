@@ -15,7 +15,7 @@ from videona_platform.users import models
 
 
 class TestUserModels(object):
-    def test_user_model(False, session):
+    def test_user_model(self, session):
         now = datetime.utcnow()
         user = models.User(
             username='Username',
@@ -64,7 +64,7 @@ class TestUserModels(object):
         assert_that(str(user), is_('<User: Username>'))
 
 
-    def test_role_model(False, session):
+    def test_role_model(self, session):
         role = models.Role(name='Role name',
                            description='A long description')
         session.add(role)

@@ -12,19 +12,22 @@ from flask_security.utils import verify_password
 from flask_wtf.csrf import CsrfProtect
 
 from core import migrate, security
+from videona_platform import default_settings
 from videona_platform.core import db
 from videona_platform.frontend.frontend import front_page_blueprint
 from videona_platform.users import models
 
 
 def authenticate(username, password):
+    print '..................................................creating videona app.....'
     user = user_datastore.find_user(email=username)
     if user and verify_password(password, user.password):
         return user
     return None
 
-def load_user():
-    pass
+def load_user(payload):
+    user = user_datastore.find_user(id=payload['identity'])
+    return user
 
 
 user_datastore = SQLAlchemyUserDatastore(db, models.User, models.Role)
