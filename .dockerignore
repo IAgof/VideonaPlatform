@@ -1,0 +1,13 @@
+# General project settings
+.cache
+.git
+.idea
+.local_data
+.vagrant
+
+# Static folders from frontend module
+videona_platform/frontend/static/js/node_modules/
+videona_platform/frontend/static/js/src/
+videona_platform/frontend/static/sass/
+videona_platform/frontend/static/.sass-cache/
+videona_platform/frontend/static/img/clips/

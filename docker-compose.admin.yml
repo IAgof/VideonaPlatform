@@ -16,7 +16,6 @@ services:
     build: ./
     links:
       - postgres:postgres
-    volumes:
-      - ./:/usr/src/app/
+#    volumes:
+#      - ./:/usr/src/app/
     entrypoint: python /usr/src/app/manage.py
-
