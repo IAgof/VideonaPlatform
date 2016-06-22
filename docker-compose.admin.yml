@@ -13,7 +13,9 @@ services:
     entrypoint: /usr/src/app/pip-installer.sh
 
   web-manage:
-    build: ./
+    build:
+      context: .
+      dockerfile: ./Dockerfile.admin
     links:
       - postgres:postgres
 #    volumes:
