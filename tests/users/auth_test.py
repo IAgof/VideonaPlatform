@@ -7,6 +7,7 @@ from flask_jwt import JWT
 from datetime import timedelta
 import videona_platform.core
 import videona_platform.default_settings
+# import videona_platform.factory
 import videona_platform.factory
 from videona_platform.factory import authenticate, load_user
 from videona_platform.users import models
@@ -22,19 +23,19 @@ class TestSecurityConfig(object):
         assert_that(videona_platform.core.security, instance_of(Security))
 
 
-    def test_app_has_user_datastore(self, app):
-        assert_that(app.user_datastore, instance_of(SQLAlchemyUserDatastore))
-        assert_that(app.user_datastore.db, is_(videona_platform.core.db))
-        assert_that(app.user_datastore.user_model, equal_to(models.User))
-        assert_that(app.user_datastore.role_model, equal_to(models.Role))
+    def test_app_has_user_datastore(self, api_app):
+        assert_that(api_app.user_datastore, instance_of(SQLAlchemyUserDatastore))
+        assert_that(api_app.user_datastore.db, is_(videona_platform.core.db))
+        assert_that(api_app.user_datastore.user_model, equal_to(models.User))
+        assert_that(api_app.user_datastore.role_model, equal_to(models.Role))
 
 
-    def test_app_security_is_initialized(self, app):
-        assert_that('security', is_in(app.extensions))
-        security = app.extensions['security']
+    def test_app_security_is_initialized(self, api_app):
+        assert_that('security', is_in(api_app.extensions))
+        security = api_app.extensions['security']
 
-        assert_that(security.app, is_(app))
-        assert_that(security.datastore, is_(app.user_datastore))
+        assert_that(security.app, is_(api_app))
+        assert_that(security.datastore, is_(api_app.user_datastore))
 
 
 class TestJWTSetup(object):
@@ -45,9 +46,9 @@ class TestJWTSetup(object):
     def test_JWT_extension_declared_in_core(self):
         assert_that(videona_platform.factory.jwt, instance_of(JWT))
 
-    def test_JWT_is_initialized(self, app):
-        assert_that('jwt', is_in(app.extensions))
-        jwt = app.extensions['jwt']
+    def test_JWT_is_initialized(self, api_app):
+        assert_that('jwt', is_in(api_app.extensions))
+        jwt = api_app.extensions['jwt']
 
         assert_that(jwt.authentication_callback, is_(authenticate))
         assert_that(jwt.identity_callback, is_(load_user))
@@ -75,7 +76,7 @@ class TestJWTHandlers(object):
 
     @mock.patch('videona_platform.factory.user_datastore.find_user')
     @mock.patch('videona_platform.factory.verify_password')
-    def test_authenticate_verify_password_if_user_found(self, verify_password, find_user, app, session):
+    def test_authenticate_verify_password_if_user_found(self, verify_password, find_user, api_app, session):
         user = factories.UserFactory()
         find_user.return_value = user
 
@@ -86,7 +87,7 @@ class TestJWTHandlers(object):
 
     @mock.patch('videona_platform.factory.user_datastore.find_user')
     @mock.patch('videona_platform.factory.verify_password')
-    def test_authenticate_returns_user_if_user_found_and_passwornd_valid(self, verify_password, find_user, app, session):
+    def test_authenticate_returns_user_if_user_found_and_passwornd_valid(self, verify_password, find_user, api_app, session):
         user = factories.UserFactory()
         find_user.return_value = user
         verify_password.return_value = True

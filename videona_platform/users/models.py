@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
     models
-    ~~~~~~~~~~~~~
+    ~~~~~~
 
-    Videona Platform User models
+    Videona Platform user related models
 """
 from videona_platform.core import db
 from flask_security import UserMixin, RoleMixin

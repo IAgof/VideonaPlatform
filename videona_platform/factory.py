@@ -12,10 +12,40 @@ from flask_security.utils import verify_password
 from flask_wtf.csrf import CsrfProtect
 
 from core import migrate, security
-from videona_platform import default_settings
 from videona_platform.core import db
-from videona_platform.frontend.frontend import front_page_blueprint
+# from videona_platform.frontend.frontend import front_page_blueprint
 from videona_platform.users import models
+
+
+def create_app(package_name, package_path, settings_override=None,
+               register_security_blueprint=True):
+    """Returns a :class:`Flask` application instance configured with common
+    functionality for the Videona platform.
+
+    :param package_name: application package name
+    :param package_path: application package path
+    :param settings_override: a dictionary of settings to override
+    :param register_security_blueprint: flag to specify if the Flask-Security
+                                        Blueprint should be registered. Defaults
+                                        to `True`.
+    """
+    app = Flask(package_name)
+    app.config.from_object('videona_platform.default_settings')
+    app.config.from_object(settings_override)
+
+    # Initialize extensions
+    db.init_app(app)
+    migrate.init_app(app, db)
+    app.user_datastore = user_datastore
+    security.init_app(app, app.user_datastore, register_blueprint=register_security_blueprint)
+    app.csrf = CsrfProtect(app)
+    if register_security_blueprint:
+        app.csrf.exempt(app.blueprints['security'])
+    jwt.init_app(app)
+
+    app.logger.debug('Flask instance path is %s' % app.instance_path)
+    # app.register_blueprint(front_page_blueprint)
+    return app
 
 
 def authenticate(username, password):
@@ -25,6 +55,7 @@ def authenticate(username, password):
         return user
     return None
 
+
 def load_user(payload):
     user = user_datastore.find_user(id=payload['identity'])
     return user
@@ -32,22 +63,3 @@ def load_user(payload):
 
 user_datastore = SQLAlchemyUserDatastore(db, models.User, models.Role)
 jwt = JWT(authentication_handler=authenticate, identity_handler=load_user)
-
-
-def create_app(settings_override=None):
-    app = Flask(__name__)
-    app.config.from_object('videona_platform.default_settings')
-    app.config.from_object(settings_override)
-
-    # Initialize extensions
-    db.init_app(app)
-    migrate.init_app(app, db)
-    app.user_datastore = user_datastore
-    security.init_app(app, app.user_datastore)
-    app.csrf = CsrfProtect(app)
-    app.csrf.exempt(app.blueprints['security'])
-    jwt.init_app(app)
-
-    # app.logger.debug('Flask instance path is %s' % app.instance_path)
-    app.register_blueprint(front_page_blueprint)
-    return app

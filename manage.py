@@ -2,7 +2,7 @@
 from flask_script import Manager, Shell
 from flask_migrate import MigrateCommand
 
-from videona_platform.factory import create_app
+from videona_platform.api.factory import create_app
 from videona_platform.core import db
 from videona_platform.users import models
 
