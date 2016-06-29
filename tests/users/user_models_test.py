@@ -5,12 +5,14 @@
 
     Tests for Videona Platform user Models and configuration
 """
+import pytest
 from datetime import datetime, timedelta
 
 from flask_security import UserMixin, RoleMixin
 from hamcrest import *
 
 from tests import factories
+from videona_platform.core import VideonaError
 from videona_platform.users import models
 
 
@@ -50,9 +52,32 @@ class TestUserModels(object):
         assert_that(saved_user.current_login_ip, is_('127.2.0.1'))
         assert_that(saved_user.login_count, is_(5))
 
-
     def test_user_model_has_user_mixin(self):
         assert_that(issubclass(models.User, UserMixin))
+
+    def test_user_email_validates(self):
+        user = None
+        with pytest.raises(VideonaError) as e_info:
+            user = models.User(
+                username='Username',
+                email='@invalid.email.com',
+                password='pass',
+            )
+
+        assert_that(e_info.value.msg, is_(models.User.USER_ERROR_EMAIL_NOT_VALID))
+        assert_that(user, none())
+
+    def test_user_password_validates(self):
+        user = None
+        with pytest.raises(VideonaError) as e_info:
+            user = models.User(
+                username='Username',
+                email='valid@email.com',
+                password='',
+            )
+
+        assert_that(e_info.value.msg, is_(models.User.USER_ERROR_EMAIL_NOT_VALID))
+        assert_that(user, none())
 
     def test_user_model_repr(self):
         user = models.User(

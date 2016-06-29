@@ -5,6 +5,8 @@
 
     tests for the api app
 """
+import json
+
 import pytest
 from hamcrest import *
 from flask import Blueprint, url_for
@@ -24,7 +26,12 @@ class TestAPIAppSetUp(object):
         assert_that(users_blueprint.name, is_in(api_app.blueprints))
 
 
-    def test_users_blueprint_register_route(self, client):
-        response = client.get(url_for('users.register_user'))
+    def test_users_blueprint_register_route(self, session, client):
+        new_user_data = dict(username='e@ma.il', password='azerty')
+        post_response = client.post(url_for('users.register_user'), data=json.dumps(new_user_data),
+                                    content_type='application/json')
+        get_response = client.get(url_for('users.register_user'))
 
-        assert_that(response.status_code, is_(200))
+        assert_that(get_response.status_code, is_(405))
+        assert_that(post_response.status_code, is_(200))
+

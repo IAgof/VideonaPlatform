@@ -36,6 +36,18 @@ def app(api_app):
     return api_app
 
 
+@pytest.fixture
+def push_context(api_app, request):
+    context = api_app.app_context()
+    context.push()
+
+    def teardown():
+        context.pop()
+
+    request.addfinalizer(teardown)
+    return context
+
+
 def apply_migrations():
     """ Applies all alembic migrations. """
     config = Config(ALEMBIC_CONFIG)

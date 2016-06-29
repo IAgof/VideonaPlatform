@@ -13,7 +13,6 @@ from flask_wtf.csrf import CsrfProtect
 
 from core import migrate, security
 from videona_platform.core import db
-# from videona_platform.frontend.frontend import front_page_blueprint
 from videona_platform.users import models
 
 
@@ -49,7 +48,7 @@ def create_app(package_name, package_path, settings_override=None,
 
 
 def authenticate(username, password):
-    print '..................................................creating videona app.....'
+    print '- ..................................................creating videona app.....'
     user = user_datastore.find_user(email=username)
     if user and verify_password(password, user.password):
         return user

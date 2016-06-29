@@ -5,9 +5,12 @@
 
     Api app factory
 """
+from flask import jsonify
+
 import videona_platform
 from videona_platform import factory
 from videona_platform.api.users import users_blueprint
+from videona_platform.core import VideonaError
 
 
 def create_app(settings_override=None, register_security_blueprint=False):
@@ -21,8 +24,12 @@ def create_app(settings_override=None, register_security_blueprint=False):
     # app.json_encoder = JSONEncoder
 
     # # Register custom error handlers
-    # app.errorhandler(VideonaError)(on_videona_error)
+    app.errorhandler(VideonaError)(on_videona_error)
     # app.errorhandler(VideonaFormError)(on_videona_form_error)
     # app.errorhandler(404)(on_404)
 
     return app
+
+
+def on_videona_error(videona_error):
+    return jsonify(dict(error=videona_error.msg)), 400

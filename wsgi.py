@@ -8,14 +8,15 @@
 
 from flask import request
 from werkzeug.serving import run_simple
+from werkzeug.wsgi import DispatcherMiddleware
 
 import videona_platform.frontend.factory
+import videona_platform.api.factory
 from videona_platform import default_settings
-from videona_platform import frontend
-# from videona_platform.factory import create_app
 
 
-application = videona_platform.frontend.factory.create_app()
+application = DispatcherMiddleware(videona_platform.frontend.factory.create_app(),
+    {default_settings.API_ENDPOINT: videona_platform.api.factory.create_app()})
 
 
 def is_jwt(request):
