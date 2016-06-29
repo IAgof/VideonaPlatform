@@ -6,6 +6,13 @@ from contextlib import contextmanager
 from flask import Blueprint, url_for
 from videona_platform.frontend.frontend import front_page_blueprint
 
+
+@pytest.fixture
+def app(frontend_app):
+    # Set frontend app as default one for client fixture
+    return frontend_app
+
+
 @contextmanager
 def patch_view_function(app, view):
         original_function = app.view_functions[view]
@@ -20,12 +27,12 @@ def patch_view_function(app, view):
 
 
 class TestLandingRoutes(object):
-    def test_frontend_blueprint_definition(self, app):
+    def test_frontend_blueprint_definition(self, frontend_app):
         assert_that(front_page_blueprint, not_none())
         assert_that(front_page_blueprint, instance_of(Blueprint))
         assert_that(front_page_blueprint.name, is_("front_page"))
         assert_that(front_page_blueprint.url_prefix, none())
-        assert_that(front_page_blueprint.name, is_in(app.blueprints))
+        assert_that(front_page_blueprint.name, is_in(frontend_app.blueprints))
 
 
     def test_bp_main_route(self, client):
@@ -34,8 +41,8 @@ class TestLandingRoutes(object):
         assert_that(response.status_code, is_(200))
 
 
-    def test_root_calls_hello_world_view(self, app, client):
-        with patch_view_function(app, 'front_page.hello_world') as hello_world:
+    def test_root_calls_hello_world_view(self, frontend_app, client):
+        with patch_view_function(frontend_app, 'front_page.hello_world') as hello_world:
 
             client.get('/')
 

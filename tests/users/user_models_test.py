@@ -6,22 +6,23 @@
     Tests for Videona Platform user Models and configuration
 """
 import pytest
-from hamcrest import *
 from datetime import datetime, timedelta
-from flask_security import Security, SQLAlchemyUserDatastore
-import videona_platform.default_settings
-import videona_platform.core
-from videona_platform.users import models
+
+from flask_security import UserMixin, RoleMixin
+from hamcrest import *
+
 from tests import factories
+from videona_platform.core import VideonaError
+from videona_platform.users import models
 
 
 class TestUserModels(object):
-    def test_user_model(False, session):
+    def test_user_model(self, session):
         now = datetime.utcnow()
         user = models.User(
             username='Username',
             email='test@email.com',
-            password='pass',
+            password='password',
             active=True,
             confirmed_at=now,
             # For Trackable logins with Flask-Security
@@ -42,7 +43,7 @@ class TestUserModels(object):
         assert_that(saved_user.id, greater_than(0))
         assert_that(saved_user.username, is_('Username'))
         assert_that(saved_user.email, is_('test@email.com'))
-        assert_that(saved_user.password, is_('pass'))
+        assert_that(saved_user.password, is_('password'))
         assert_that(saved_user.active, is_(True))
         assert_that(saved_user.confirmed_at, is_(now))
         assert_that(saved_user.last_login_at, is_(now - timedelta(days=1)))
@@ -51,12 +52,38 @@ class TestUserModels(object):
         assert_that(saved_user.current_login_ip, is_('127.2.0.1'))
         assert_that(saved_user.login_count, is_(5))
 
+    def test_user_model_has_user_mixin(self):
+        assert_that(issubclass(models.User, UserMixin))
+
+    def test_user_email_validates(self):
+        user = None
+        with pytest.raises(VideonaError) as e_info:
+            user = models.User(
+                username='Username',
+                email='@invalid.email.com',
+                password='password',
+            )
+
+        assert_that(e_info.value.msg, is_(models.User.USER_ERROR_EMAIL_NOT_VALID))
+        assert_that(user, none())
+
+    def test_user_password_validates(self):
+        user = None
+        with pytest.raises(VideonaError) as e_info:
+            user = models.User(
+                username='Username',
+                email='valid@email.com',
+                password='',
+            )
+
+        assert_that(e_info.value.msg, is_(models.User.USER_ERROR_PASSWORD_TOO_SHORT))
+        assert_that(user, none())
 
     def test_user_model_repr(self):
         user = models.User(
             username='Username',
             email='test@email.com',
-            password='pass',
+            password='password',
         )
 
         assert_that(str(user), is_('<User: Username>'))
@@ -116,27 +143,3 @@ class TestUserModels(object):
         assert_that(len(saved_user.roles), is_(2))
         assert_that(saved_user.roles[0], is_in(roles))
         assert_that(saved_user.roles[1], is_in(roles))
-
-
-class TestSecurityConfig(object):
-    def test_security_trackable_option_is_activated(self):
-        assert_that(videona_platform.default_settings.SECURITY_TRACKABLE, is_(True))
-
-
-    def test_secure_extension_declared_in_core(self):
-        assert_that(videona_platform.core.security, instance_of(Security))
-
-
-    def test_app_has_user_datastore(self, app):
-        assert_that(app.user_datastore, instance_of(SQLAlchemyUserDatastore))
-        assert_that(app.user_datastore.db, is_(videona_platform.core.db))
-        assert_that(app.user_datastore.user_model, equal_to(models.User))
-        assert_that(app.user_datastore.role_model, equal_to(models.Role))
-
-
-    def test_app_security_is_initialized(self, app):
-        assert_that('security', is_in(app.extensions))
-        security = app.extensions['security']
-
-        assert_that(security.app, is_(app))
-        assert_that(security.datastore, is_(app.user_datastore))

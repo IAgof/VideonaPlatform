@@ -8,8 +8,10 @@
 import pytest
 from alembic.command import upgrade
 from alembic.config import Config
-from videona_platform.factory import create_app
-from videona_platform.core import db as _db
+
+import videona_platform.api.factory
+import videona_platform.frontend.factory
+from videona_platform import core
 import test_settings
 
 
@@ -17,9 +19,33 @@ ALEMBIC_CONFIG = 'migrations/alembic.ini'
 
 
 @pytest.fixture(scope='session')
-def app():
-    app = create_app(test_settings)
+def frontend_app():
+    app = videona_platform.frontend.factory.create_app(test_settings)
     return app
+
+
+@pytest.fixture(scope='session')
+def api_app():
+    app = videona_platform.api.factory.create_app(test_settings)
+    return app
+
+
+@pytest.fixture(scope='session')
+def app(api_app):
+    # Default app fixture. Seems to be asked by client fixture
+    return api_app
+
+
+@pytest.fixture
+def push_context(api_app, request):
+    context = api_app.app_context()
+    context.push()
+
+    def teardown():
+        context.pop()
+
+    request.addfinalizer(teardown)
+    return context
 
 
 def apply_migrations():
@@ -29,45 +55,47 @@ def apply_migrations():
 
 
 @pytest.fixture(scope='session')
-def db(app, request):
+def db(api_app, request):
     """
     Create session-wide test database
-    :param app: app fixture
+    :param api_app: api app fixture
     :param request:
     :return:
     """
     def teardown():
-        _db.drop_all()
+        core.db.drop_all()
 
-    _db.app = app
+    core.db.app = api_app
     # Apply already created migrations
-    apply_migrations()
-    # And create pending models, not already as migrations, for testing purposes
-    _db.create_all()
+    with api_app.app_context():
+        apply_migrations()
+        # And create pending models, not already as migrations, for testing purposes
+        core.db.create_all()
 
-    request.addfinalizer(teardown)
-    return _db
+        request.addfinalizer(teardown)
+    return core.db
 
 
 @pytest.fixture(scope='function')
-def session(db, request, monkeypatch):
+def session(api_app, db, request, monkeypatch):
     """
     Creates a new database session for a test
     :param db: db fixture
     :param request:
     :return:
     """
-    connection = db.engine.connect()
-    transaction = connection.begin()
+    with api_app.app_context():
+        connection = db.engine.connect()
+        transaction = connection.begin()
 
     # Patch Flask-SQLAlchemy to use our connection instead of replacing the whole session
     # See https://github.com/mitsuhiko/flask-sqlalchemy/pull/249
-    monkeypatch.setattr(_db, 'get_engine', lambda *args: connection)
+    monkeypatch.setattr(core.db, 'get_engine', lambda *args: connection)
 
     def teardown():
-        _db.session.remove()
+        core.db.session.remove()
         transaction.rollback()
         connection.close()
 
     request.addfinalizer(teardown)
-    return _db.session
+    return core.db.session

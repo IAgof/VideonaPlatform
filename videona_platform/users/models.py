@@ -1,19 +1,27 @@
 # -*- coding: utf-8 -*-
 """
     models
-    ~~~~~~~~~~~~~
+    ~~~~~~
 
-    Videona Platform User models
+    Videona Platform user related models
 """
-from videona_platform.core import db
+import re
 
+from flask_security import UserMixin, RoleMixin
+from sqlalchemy.orm import validates
+
+from videona_platform.core import db, VideonaError
+from videona_platform.default_settings import MINIMUN_PASSWORD_LENGTH
 
 roles_users = db.Table('roles_users',
                        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
                        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
+    USER_ERROR_EMAIL_NOT_VALID = 'Email not valid'
+    USER_ERROR_PASSWORD_TOO_SHORT = 'Password too short. Type at least ' + str(MINIMUN_PASSWORD_LENGTH) + ' characters'
+
     # __tablename__ = ''
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
@@ -32,8 +40,19 @@ class User(db.Model):
     def __repr__(self):
         return '<User: %s>' % self.username
 
+    @validates('email')
+    def validate_email(self, key, address):
+        if not re.match('[^@]+@[^@]+\.[^@]+', address):
+            raise VideonaError(User.USER_ERROR_EMAIL_NOT_VALID)
+        return address
 
-class Role(db.Model):
+    @validates('password')
+    def validate_password_length(self, key, password):
+        if len(password) < MINIMUN_PASSWORD_LENGTH:
+            raise VideonaError(User.USER_ERROR_PASSWORD_TOO_SHORT)
+        return password
+
+class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
