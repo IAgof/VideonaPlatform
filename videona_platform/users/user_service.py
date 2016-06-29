@@ -12,7 +12,7 @@ from videona_platform.core import db, VideonaError
 
 
 class UserService(object):
-    ERROR_DATABASE_ERROR = 'database error'
+    ERROR_DATABASE_ERROR = 'Database error'
     ERROR_USER_ALREADY_EXISTS = 'User already exists'
 
     def register(self, email, password):

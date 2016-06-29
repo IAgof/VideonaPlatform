@@ -7,14 +7,17 @@
 """
 import json
 
+import pytest
 from hamcrest import *
 import mock
 
 from flask import url_for
 
-from videona_platform.api.users import register_user
+from videona_platform.api.users import register_user, ERROR_MISSING_PARAMETERS
+from videona_platform.core import VideonaError
 from videona_platform.users import models as user_models
 from tests.factories import UserFactory
+from videona_platform.users.user_service import UserService
 
 A_VALID_MAIL = 'ovidio@videona.com'
 A_VALID_PASSWORD = 'azerty'
@@ -71,3 +74,30 @@ class TestRegisterEndpoint(object):
 
         assert_that(response.status_code, is_(200))
         assert_that(response.json['result'], is_('User created'))
+
+    @mock.patch('videona_platform.users.user_service.users.register')
+    @mock.patch('videona_platform.api.users.request')
+    def test_register_endpoint_fails_on_missing_username(self, flask_request, user_service_register, client):
+        new_user_post_data = {
+            'password': A_VALID_PASSWORD
+        }
+        flask_request.json = new_user_post_data
+
+        with pytest.raises(VideonaError) as e_info:
+            register_user()
+
+        assert_that(e_info.value.msg, is_(ERROR_MISSING_PARAMETERS))
+
+
+    @mock.patch('videona_platform.users.user_service.users.register')
+    @mock.patch('videona_platform.api.users.request')
+    def test_register_endpoint_fails_on_missing_password(self, flask_request, user_service_register, client):
+        new_user_post_data = {
+            'username': A_VALID_MAIL
+        }
+        flask_request.json = new_user_post_data
+
+        with pytest.raises(VideonaError) as e_info:
+            register_user()
+
+        assert_that(e_info.value.msg, is_(ERROR_MISSING_PARAMETERS))

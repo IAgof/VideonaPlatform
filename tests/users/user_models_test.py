@@ -22,7 +22,7 @@ class TestUserModels(object):
         user = models.User(
             username='Username',
             email='test@email.com',
-            password='pass',
+            password='password',
             active=True,
             confirmed_at=now,
             # For Trackable logins with Flask-Security
@@ -43,7 +43,7 @@ class TestUserModels(object):
         assert_that(saved_user.id, greater_than(0))
         assert_that(saved_user.username, is_('Username'))
         assert_that(saved_user.email, is_('test@email.com'))
-        assert_that(saved_user.password, is_('pass'))
+        assert_that(saved_user.password, is_('password'))
         assert_that(saved_user.active, is_(True))
         assert_that(saved_user.confirmed_at, is_(now))
         assert_that(saved_user.last_login_at, is_(now - timedelta(days=1)))
@@ -61,7 +61,7 @@ class TestUserModels(object):
             user = models.User(
                 username='Username',
                 email='@invalid.email.com',
-                password='pass',
+                password='password',
             )
 
         assert_that(e_info.value.msg, is_(models.User.USER_ERROR_EMAIL_NOT_VALID))
@@ -76,14 +76,14 @@ class TestUserModels(object):
                 password='',
             )
 
-        assert_that(e_info.value.msg, is_(models.User.USER_ERROR_EMAIL_NOT_VALID))
+        assert_that(e_info.value.msg, is_(models.User.USER_ERROR_PASSWORD_TOO_SHORT))
         assert_that(user, none())
 
     def test_user_model_repr(self):
         user = models.User(
             username='Username',
             email='test@email.com',
-            password='pass',
+            password='password',
         )
 
         assert_that(str(user), is_('<User: Username>'))
