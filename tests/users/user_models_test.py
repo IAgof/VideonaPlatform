@@ -55,6 +55,14 @@ class TestUserModels(object):
     def test_user_model_has_user_mixin(self):
         assert_that(issubclass(models.User, UserMixin))
 
+    def test_user_json_serializer_fields(self):
+        user_json_public_fields = ['id', 'username', 'email']
+
+        assert_that(models.UserJSONSerializer.__json_public__, is_(user_json_public_fields))
+
+    def test_user_model_has_user_json_serializer(self):
+        assert_that(issubclass(models.User, models.UserJSONSerializer))
+
     def test_user_email_validates(self):
         user = None
         with pytest.raises(VideonaError) as e_info:

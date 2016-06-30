@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-    register tests
-    ~~~~~
+    test/api/register tests
+    ~~~~~~~~~~~~~~~~~~~~~~~
 
     tests for user register endpoint
 """

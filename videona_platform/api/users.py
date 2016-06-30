@@ -6,6 +6,7 @@
     Api users module
 """
 from flask import Blueprint, request, jsonify
+from flask_jwt import jwt_required
 
 from videona_platform.core import VideonaError
 from videona_platform.users.user_service import users
@@ -14,6 +15,7 @@ users_blueprint = Blueprint('users', __name__, url_prefix='/v1/users')
 
 ERROR_MISSING_PARAMETERS = 'Missing request parameters'
 STATUS_USER_CREATED = 'User created'
+
 
 @users_blueprint.route('/register', methods=['POST'])
 def register_user():
@@ -25,3 +27,10 @@ def register_user():
         return jsonify({'result': STATUS_USER_CREATED})
     except KeyError:
         raise VideonaError(ERROR_MISSING_PARAMETERS)
+
+
+@users_blueprint.route('/<int:user_id>', methods=['GET'])
+@jwt_required()
+def user_details(user_id):
+    user = users.get_or_404(user_id)
+    return jsonify(dict(data=user)), 200

@@ -41,7 +41,7 @@ class TestSecurityConfig(object):
 class TestJWTSetup(object):
     def test_jwt_setup_options_are_set(self):
         assert_that(videona_platform.default_settings.JWT_EXPIRATION_DELTA, is_(timedelta(days=30)))
-        assert_that(videona_platform.default_settings.JWT_AUTH_URL_RULE, is_('/api/v1/auth'))
+        assert_that(videona_platform.default_settings.JWT_AUTH_URL_RULE, is_('/v1/auth'))
 
     def test_JWT_extension_declared_in_core(self):
         assert_that(videona_platform.factory.jwt, instance_of(JWT))

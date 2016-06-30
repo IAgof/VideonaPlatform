@@ -5,15 +5,18 @@
 
     users service
 """
+from flask import jsonify
 from flask_security.utils import encrypt_password
 
 from videona_platform.default_settings import MINIMUN_PASSWORD_LENGTH
 from videona_platform.factory import user_datastore
 from videona_platform.users import models as users_models
-from videona_platform.core import db, VideonaError
+from videona_platform.core import db, VideonaError, Service
 
 
-class UserService(object):
+class UserService(Service):
+    __model__ = users_models.User
+
     ERROR_DATABASE_ERROR = 'Database error'
     ERROR_USER_ALREADY_EXISTS = 'User already exists'
 
@@ -36,6 +39,7 @@ class UserService(object):
     def _check_password_lenght(self, password):
         if len(password) < MINIMUN_PASSWORD_LENGTH:
             raise VideonaError(users_models.User.USER_ERROR_PASSWORD_TOO_SHORT)
+
 
 
 users = UserService()

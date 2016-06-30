@@ -40,7 +40,6 @@ def create_app(package_name, package_path, settings_override=None,
     app.csrf = CsrfProtect(app)
     if register_security_blueprint:
         app.csrf.exempt(app.blueprints['security'])
-    jwt.init_app(app)
 
     app.logger.debug('Flask instance path is %s' % app.instance_path)
     # app.register_blueprint(front_page_blueprint)
@@ -48,7 +47,7 @@ def create_app(package_name, package_path, settings_override=None,
 
 
 def authenticate(username, password):
-    print '- ..................................................creating videona app.....'
+    print '- authenticating user -'
     user = user_datastore.find_user(email=username)
     if user and verify_password(password, user.password):
         return user

@@ -11,6 +11,7 @@ from flask_security import UserMixin, RoleMixin
 from sqlalchemy.orm import validates
 
 from videona_platform.core import db, VideonaError
+from videona_platform.helpers import JSONSerializer
 from videona_platform.default_settings import MINIMUN_PASSWORD_LENGTH
 
 roles_users = db.Table('roles_users',
@@ -18,7 +19,11 @@ roles_users = db.Table('roles_users',
                        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
 
 
-class User(db.Model, UserMixin):
+class UserJSONSerializer(JSONSerializer):
+    __json_public__ = ['id', 'username', 'email']
+
+
+class User(db.Model, UserJSONSerializer, UserMixin):
     USER_ERROR_EMAIL_NOT_VALID = 'Email not valid'
     USER_ERROR_PASSWORD_TOO_SHORT = 'Password too short. Type at least ' + str(MINIMUN_PASSWORD_LENGTH) + ' characters'
 
@@ -51,6 +56,7 @@ class User(db.Model, UserMixin):
         if len(password) < MINIMUN_PASSWORD_LENGTH:
             raise VideonaError(User.USER_ERROR_PASSWORD_TOO_SHORT)
         return password
+
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)
