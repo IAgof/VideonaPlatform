@@ -41,6 +41,7 @@ class User(db.Model, UserJSONSerializer, UserMixin):
     login_count = db.Column(db.Integer)
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
+    videos = db.relationship('Video', backref='user', lazy='dynamic')
 
     def __repr__(self):
         return '<User: %s>' % self.username
