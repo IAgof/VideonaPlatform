@@ -38,3 +38,5 @@ JWT_AUTH_URL_RULE = '/v1/auth'
 WTF_CSRF_CHECK_DEFAULT = False
 
 API_ENDPOINT = '/api'
+
+FIWARE_INSTALLED = os.environ.get('FIWARE_INSTALLED', False)

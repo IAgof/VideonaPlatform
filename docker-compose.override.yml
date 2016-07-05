@@ -4,4 +4,5 @@ services:
   web:
     volumes:
       - ./:/usr/src/app/
-
+    environment:
+      - FLASK_ENV=development

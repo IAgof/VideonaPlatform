@@ -5,6 +5,8 @@
 
     Defines our app fixture
 """
+from copy import copy
+
 import pytest
 from alembic.command import upgrade
 from alembic.config import Config
@@ -34,6 +36,15 @@ def api_app():
 def app(api_app):
     # Default app fixture. Seems to be asked by client fixture
     return api_app
+
+
+@pytest.fixture(scope='session')
+def api_app_fiware():
+    # fiware_settings = copy(test_settings)
+    fiware_settings = test_settings
+    fiware_settings.FIWARE_INSTALLED = True
+    app = videona_platform.api.factory.create_app(fiware_settings)
+    return app
 
 
 @pytest.fixture

@@ -13,7 +13,10 @@ from flask_wtf.csrf import CsrfProtect
 
 from core import migrate, security
 from videona_platform.core import db
+from videona_platform.fiware.keyrock import fiware_authenticate_from_jwt
 from videona_platform.users import models
+from videona_platform.fiware import fiware_settings
+from videona_platform.users.user_service import UserService
 
 
 def create_app(package_name, package_path, settings_override=None,
@@ -31,6 +34,8 @@ def create_app(package_name, package_path, settings_override=None,
     app = Flask(package_name)
     app.config.from_object('videona_platform.default_settings')
     app.config.from_object(settings_override)
+    if app.config.get('FIWARE_INSTALLED'):
+        app.config.from_object(fiware_settings)
 
     # Initialize extensions
     db.init_app(app)
@@ -51,6 +56,8 @@ def authenticate(username, password):
     user = user_datastore.find_user(email=username)
     if user and verify_password(password, user.password):
         return user
+    if fiware_authenticate_from_jwt(username, password) != None:
+        return UserService(user_datastore).register(username, password)
     return None
 
 

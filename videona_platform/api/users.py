@@ -9,7 +9,10 @@ from flask import Blueprint, request, jsonify
 from flask_jwt import jwt_required
 
 from videona_platform.core import VideonaError
-from videona_platform.users.user_service import users
+from videona_platform.factory import user_datastore
+from videona_platform.users.user_service import UserService
+
+users = UserService(user_datastore)
 
 users_blueprint = Blueprint('users', __name__, url_prefix='/v1/users')
 

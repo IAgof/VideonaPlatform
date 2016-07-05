@@ -6,6 +6,9 @@ services:
       dockerfile: ./tests/Dockerfile
     volumes:
       - ./:/usr/src/app/
+    environment:
+      - KEYROCK_HOST=http://keyrock
+
 
 
   pip-installer:
