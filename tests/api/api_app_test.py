@@ -5,6 +5,7 @@
 
     tests for the api app
 """
+import datetime
 import pytest
 from hamcrest import *
 import mock
@@ -14,6 +15,7 @@ from flask import Blueprint, url_for
 
 from videona_platform.api.factory import on_videona_error, on_404
 from videona_platform.api.users import users_blueprint
+from videona_platform.api.videos import videos_blueprint
 from videona_platform.core import VideonaError
 from videona_platform.helpers import JSONEncoder
 from tests.factories import UserFactory
@@ -34,6 +36,13 @@ class TestAPIAppSetUp(object):
         assert_that(users_blueprint.url_prefix, is_("/v1/users"))
         assert_that(users_blueprint.name, is_in(api_app.blueprints))
 
+    def test_api_videos_blueprint_definition(self, api_app):
+        assert_that(videos_blueprint, not_none())
+        assert_that(videos_blueprint, instance_of(Blueprint))
+        assert_that(videos_blueprint.name, is_("videos"))
+        assert_that(videos_blueprint.url_prefix, is_("/v1/videos"))
+        assert_that(videos_blueprint.name, is_in(api_app.blueprints))
+
     def test_api_app_has_json_serializer(self, api_app):
         assert_that(api_app.json_encoder, equal_to(JSONEncoder))
 
@@ -53,6 +62,21 @@ class TestAPIAppSetUp(object):
 
         assert_that(get_response.status_code, is_(405))
         assert_that(post_response.status_code, is_(200))
+
+    @mock.patch('videona_platform.api.videos.create_video')
+    def test_videos_blueprint_create_route(self, create_video, app, session, client):
+        now = str(datetime.datetime.utcnow())
+        new_video_data = dict(lat=40.502956, lon=-3.887818, height=720, width=1080, rotation=90,
+                                           duration=210093, size=890123478, bitrate=5000000,
+                                           # date=now,
+                                           title='video title')
+
+        post_response = client.post(url_for('videos.create_video'), data=json.dumps(new_video_data),
+                                    content_type='application/json')
+        get_response = client.get(url_for('videos.create_video'))
+
+        assert_that(get_response.status_code, is_(405))
+        assert_that(post_response.status_code, is_(201))
 
     @mock.patch('flask_jwt._jwt_required')
     @mock.patch('videona_platform.api.users.user_details')

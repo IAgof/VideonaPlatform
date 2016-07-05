@@ -17,7 +17,6 @@ from videona_platform.api.users import register_user, ERROR_MISSING_PARAMETERS
 from videona_platform.core import VideonaError
 from videona_platform.users import models as user_models
 from tests.factories import UserFactory
-from videona_platform.users.user_service import UserService
 
 A_VALID_MAIL = 'ovidio@videona.com'
 A_VALID_PASSWORD = 'azerty'

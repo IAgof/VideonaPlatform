@@ -5,7 +5,6 @@
 
     users service
 """
-from flask import jsonify
 from flask_security.utils import encrypt_password
 
 from videona_platform.default_settings import MINIMUN_PASSWORD_LENGTH
