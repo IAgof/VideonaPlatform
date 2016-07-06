@@ -5,8 +5,6 @@
 
     Defines our app fixture
 """
-from copy import copy
-
 import pytest
 from alembic.command import upgrade
 from alembic.config import Config
@@ -14,6 +12,7 @@ from alembic.config import Config
 import videona_platform.api.factory
 import videona_platform.frontend.factory
 from videona_platform import core
+from videona_platform.fiware import fiware_settings
 import test_settings
 
 
@@ -40,10 +39,10 @@ def app(api_app):
 
 @pytest.fixture(scope='session')
 def api_app_fiware():
-    # fiware_settings = copy(test_settings)
-    fiware_settings = test_settings
-    fiware_settings.FIWARE_INSTALLED = True
-    app = videona_platform.api.factory.create_app(fiware_settings)
+    settings = test_settings
+    settings.FIWARE_INSTALLED = True
+    app = videona_platform.api.factory.create_app(settings)
+    app.config.from_object(fiware_settings)
     return app
 
 

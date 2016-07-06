@@ -66,7 +66,7 @@ class TestJWTHandlers(object):
 
 
     @mock.patch('videona_platform.factory.user_datastore.find_user')
-    def test_authenticate_returns_none_if_no_user_found(self, find_user):
+    def test_authenticate_returns_none_if_no_user_found(self, find_user, push_context):
         find_user.return_value = None
 
         user = authenticate('email@test.com', 'pwd')

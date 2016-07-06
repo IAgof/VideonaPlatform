@@ -56,7 +56,7 @@ def authenticate(username, password):
     user = user_datastore.find_user(email=username)
     if user and verify_password(password, user.password):
         return user
-    if fiware_authenticate_from_jwt(username, password) != None:
+    if fiware_authenticate_from_jwt(username, password) is not None:
         return UserService(user_datastore).register(username, password)
     return None
 

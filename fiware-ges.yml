@@ -7,12 +7,13 @@ services:
       - poi
     environment:
       - FIWARE_INSTALLED=True
-      - FLASK_ENV=production
+      - FLASK_ENV=development
   #    - DATABASE_URL=postgresql://postgres:postgres@postgres/videona-platform
       - KEYROCK_HOST=http://keyrock
       - ORION_HOST=orion
       - ORION_PORT=1026
-      - POI_HOST=poi
+      - POI_HOST=http://poi
+      - POI_PORT=80
 
   # Keyrock idm
   # doc at https://hub.docker.com/r/fiware/idm/
@@ -69,7 +70,8 @@ services:
   # repo at https://github.com/Chiru/FIWARE-POIDataProvider/
   # Dockerfile https://github.com/Chiru/FIWARE-POIDataProvider/blob/master/docker/Dockerfile
   poi:
-    image: ariokkon/fiware_poi_dataprovider
+#    image: ariokkon/fiware_poi_dataprovider
+    build: ./fiware/poi
     ports:
       - "8099:80"
     volumes_from:

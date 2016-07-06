@@ -18,7 +18,7 @@ class TestVideoEndpoints(object):
     @mock.patch('videona_platform.api.videos.videos.create')
     @mock.patch('videona_platform.api.videos.request')
     @mock.patch('videona_platform.api.videos.jsonify')
-    def test_video_create_endpoint_calls_video_service_create(self, jsonify, flask_request, video_service_create):
+    def test_video_create_endpoint_calls_video_service_create(self, jsonify, flask_request, video_service_create, push_context):
         jsonify.return_value = 'return'
         now = datetime.utcnow()
         new_video_post_data = {'lat': 40.502956, 'lon': -3.887818, 'height': 720, 'width': 1080, 'rotation': 90,

@@ -52,7 +52,7 @@ class TestAPIAppSetUp(object):
     def test_api_app_has_404_custom_error_handler(self, api_app):
         assert_that(api_app.error_handlers[404], is_(on_404))
 
-    @mock.patch('videona_platform.users.user_service.users.register')
+    @mock.patch('videona_platform.api.users.users.register')
     def test_users_blueprint_register_route(self, register_user, session, client):
         new_user_data = dict(username='e@ma.il', password='azerty')
 

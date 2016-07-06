@@ -23,7 +23,7 @@ A_VALID_PASSWORD = 'azerty'
 
 
 class TestRegisterEndpoint(object):
-    @mock.patch('videona_platform.users.user_service.users.register')
+    @mock.patch('videona_platform.api.users.users.register')
     @mock.patch('videona_platform.api.users.request')
     def test_register_endpoint_calls_user_service_register(self, flask_request, user_service_register, client):
         new_user_post_data = {
@@ -74,7 +74,7 @@ class TestRegisterEndpoint(object):
         assert_that(response.status_code, is_(200))
         assert_that(response.json['result'], is_('User created'))
 
-    @mock.patch('videona_platform.users.user_service.users.register')
+    @mock.patch('videona_platform.api.users.users.register')
     @mock.patch('videona_platform.api.users.request')
     def test_register_endpoint_fails_on_missing_username(self, flask_request, user_service_register, client):
         new_user_post_data = {
@@ -88,7 +88,7 @@ class TestRegisterEndpoint(object):
         assert_that(e_info.value.msg, is_(ERROR_MISSING_PARAMETERS))
 
 
-    @mock.patch('videona_platform.users.user_service.users.register')
+    @mock.patch('videona_platform.api.users.users.register')
     @mock.patch('videona_platform.api.users.request')
     def test_register_endpoint_fails_on_missing_password(self, flask_request, user_service_register, client):
         new_user_post_data = {

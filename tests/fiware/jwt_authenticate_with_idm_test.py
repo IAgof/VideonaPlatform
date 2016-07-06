@@ -14,13 +14,13 @@ from videona_platform.fiware.keyrock import fiware_authenticate_from_jwt, keyroc
 
 class TestJWTAuthenticationIDM(object):
     @mock.patch('videona_platform.factory.fiware_authenticate_from_jwt')
-    def test_authenticate_calls_keyrock_auth(self, fiware_authenticate_from_jwt, session):
+    def test_authenticate_calls_keyrock_auth(self, fiware_authenticate_from_jwt, session, push_context):
         authenticate('username', 'password')
 
         fiware_authenticate_from_jwt.assert_called_once_with('username', 'password')
 
     @mock.patch('videona_platform.fiware.keyrock.keyrock_client.keyrock_login')
-    def test_fiware_authenticate_from_jwt_calls_keyrock_login(self, keyrock_login):
+    def test_fiware_authenticate_from_jwt_calls_keyrock_login(self, keyrock_login, push_context):
         fiware_authenticate_from_jwt('username', 'password')
 
         keyrock_login.assert_called_once_with('username', 'password')

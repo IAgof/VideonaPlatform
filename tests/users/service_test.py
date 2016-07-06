@@ -10,7 +10,8 @@ from hamcrest import *
 import mock
 
 from tests.factories import UserFactory
-from videona_platform.users.user_service import users, UserService
+from videona_platform.users.user_service import UserService
+from videona_platform.api.users import users
 from videona_platform.users import models as users_models
 from videona_platform.core import VideonaError, Service
 
