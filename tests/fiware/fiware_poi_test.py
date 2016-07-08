@@ -30,7 +30,6 @@ class TestPOIIntegration(object):
         mocked_response.json.return_value = {u'created_poi': {u'timestamp': 1467817834, u'uuid': u'4da507a7-5de3-40ed-ab03-b921441de446'}}
         post.return_value = mocked_response
 
-        import ipdb; ipdb.set_trace()
         fiware_send_video_poi(video)
 
         pois = FiwarePoi.query.all()

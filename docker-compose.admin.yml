@@ -9,13 +9,19 @@ services:
     environment:
       - KEYROCK_HOST=http://keyrock
 
-
-
   pip-installer:
     build: ./
     entrypoint: /usr/src/app/pip-installer.sh
 
   web-manage:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.admin
+    links:
+      - postgres:postgres
+    entrypoint: python /usr/src/app/manage.py
+
+  web-manage.local:
     build:
       context: .
       dockerfile: ./Dockerfile.admin

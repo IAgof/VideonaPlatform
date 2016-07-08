@@ -8,7 +8,7 @@
 import os
 
 
-KEYROCK_HOST = os.environ.get('KEYROCK_HOST')
+KEYROCK_HOST = os.environ.get('KEYROCK_HOST', 'http://keyrock')
 KEYROCK_PORT = '7003'
 KEYROCK_ADMIN_USER = os.environ.get('KEYROCK_ADMIN_USER', 'idm_user')
 KEYROCK_ADMIN_PASSWORD = os.environ.get('KEYROCK_ADMIN_PASSWORD', 'idm')
@@ -23,3 +23,7 @@ POI_UPDATE_POI_ENDPOINT = 'poi_dp/update_poi'
 POI_DELETE_POI_ENDPOINT = 'poi_dp/delete_poi'
 POI_RADIAL_SEARCH_ENDPOINT = 'poi_dp/radial_search'
 POI_VIDEO_CATEGORY = 'video'
+
+ORION_HOST = os.environ.get('ORION_HOST', 'http://orion')
+ORION_PORT = os.environ.get('ORION_PORT', 1026)
+ORION_ENTITIES_ENDPOINT = 'v2/entities'
