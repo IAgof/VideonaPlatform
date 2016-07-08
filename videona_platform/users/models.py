@@ -42,6 +42,8 @@ class User(db.Model, UserJSONSerializer, UserMixin):
     roles = db.relationship('Role', secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
     videos = db.relationship('Video', backref='user', lazy='dynamic')
+    redeemed_codes = db.relationship('PromoCode', backref='redeemed_by',
+                                lazy='dynamic')
 
     def __repr__(self):
         return '<User %s: %s - %s>' % (self.id, self.username, self.email)

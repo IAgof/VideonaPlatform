@@ -43,6 +43,3 @@ class UserService(Service):
     def _check_password_lenght(self, password):
         if len(password) < MINIMUN_PASSWORD_LENGTH:
             raise VideonaError(users_models.User.USER_ERROR_PASSWORD_TOO_SHORT)
-
-
-# users = UserService()

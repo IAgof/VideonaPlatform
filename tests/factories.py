@@ -9,6 +9,7 @@ import factory
 from factory import alchemy
 from videona_platform.users import models as user_models
 from videona_platform.videos import models as video_models
+from videona_platform.promo_codes import models as promo_codes_models
 from videona_platform.core import db
 
 class UserFactory(alchemy.SQLAlchemyModelFactory):
@@ -36,3 +37,12 @@ class VideoFactory(alchemy.SQLAlchemyModelFactory):
     title = factory.Sequence(lambda n: u'User %d' % n)
     lat = 40.502956
     lon = -3.887818
+
+
+class PromoCodeFactory(alchemy.SQLAlchemyModelFactory):
+    class Meta:
+        model = promo_codes_models.PromoCode
+        sqlalchemy_session = db.session
+
+    code = factory.Sequence(lambda n: u'code_%d' % n)
+    campaign = 'videonaPromo'

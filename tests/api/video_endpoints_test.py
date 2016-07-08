@@ -11,10 +11,12 @@ import mock
 
 from datetime import datetime
 
+from tests.conftest import mock_jwt_required
 from videona_platform.api.videos import create_video
 
 
 class TestVideoEndpoints(object):
+    @mock.patch('flask_jwt._jwt_required', mock.Mock(side_effect=mock_jwt_required))
     @mock.patch('videona_platform.api.videos.videos.create')
     @mock.patch('videona_platform.api.videos.request')
     @mock.patch('videona_platform.api.videos.jsonify')

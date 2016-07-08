@@ -121,3 +121,7 @@ def session(api_app, db, request, monkeypatch):
 
     request.addfinalizer(teardown)
     return core.db.session
+
+
+def mock_jwt_required(realm):
+    return

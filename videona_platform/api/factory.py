@@ -11,6 +11,7 @@ from flask import jsonify
 
 import videona_platform
 from videona_platform import factory
+from videona_platform.api.promo_codes import promo_codes_blueprint
 from videona_platform.api.users import users_blueprint
 from videona_platform.api.videos import videos_blueprint
 from videona_platform.core import VideonaError
@@ -23,6 +24,7 @@ def create_app(settings_override=None, register_security_blueprint=False):
                              register_security_blueprint=register_security_blueprint)
     app.register_blueprint(users_blueprint)
     app.register_blueprint(videos_blueprint)
+    app.register_blueprint(promo_codes_blueprint)
     factory.jwt.init_app(app)
 
     # Set the default JSON encoder
