@@ -44,7 +44,7 @@ class User(db.Model, UserJSONSerializer, UserMixin):
     videos = db.relationship('Video', backref='user', lazy='dynamic')
 
     def __repr__(self):
-        return '<User: %s>' % self.username
+        return '<User %s: %s - %s>' % (self.id, self.username, self.email)
 
     @validates('email')
     def validate_email(self, key, address):

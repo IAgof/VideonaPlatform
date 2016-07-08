@@ -46,9 +46,21 @@ def api_app_fiware():
     return app
 
 
-@pytest.fixture
+@pytest.fixture(scope='function')
 def push_context(api_app, request):
     context = api_app.app_context()
+    context.push()
+
+    def teardown():
+        context.pop()
+
+    request.addfinalizer(teardown)
+    return context
+
+
+@pytest.fixture(scope='function')
+def push_context_fiware(api_app_fiware, request):
+    context = api_app_fiware.app_context()
     context.push()
 
     def teardown():

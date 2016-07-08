@@ -14,14 +14,9 @@ from videona_platform.fiware.poi import fiware_send_video_poi
 from tests.factories import VideoFactory
 
 
-@pytest.fixture(autouse=True)
-def app(api_app_fiware):
-    return api_app_fiware
-
-
 class TestPOIIntegration(object):
     @mock.patch('requests.post')
-    def test_fiware_send_video_poi_creates_fiware_poi(self, post, session, push_context):
+    def test_fiware_send_video_poi_creates_fiware_poi(self, post, session, push_context_fiware):
         video = VideoFactory()
         session.add(video)
         session.commit()

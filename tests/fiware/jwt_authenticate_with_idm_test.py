@@ -13,27 +13,29 @@ from videona_platform.fiware.keyrock import fiware_authenticate_from_jwt, keyroc
 
 
 class TestJWTAuthenticationIDM(object):
+    @mock.patch('videona_platform.fiware.keyrock.keyrock_client.keyrock_login', mock.Mock())
     @mock.patch('videona_platform.factory.fiware_authenticate_from_jwt')
-    def test_authenticate_calls_keyrock_auth(self, fiware_authenticate_from_jwt, session, push_context):
-        authenticate('username', 'password')
+    def test_authenticate_calls_keyrock_auth(self, fiware_authenticate_from_jwt, session, push_context_fiware):
+        authenticate('username@email.com', 'password')
 
-        fiware_authenticate_from_jwt.assert_called_once_with('username', 'password')
+        fiware_authenticate_from_jwt.assert_called_once_with('username@email.com', 'password')
 
+    @mock.patch('videona_platform.factory.fiware_authenticate_from_jwt', mock.Mock())
     @mock.patch('videona_platform.fiware.keyrock.keyrock_client.keyrock_login')
-    def test_fiware_authenticate_from_jwt_calls_keyrock_login(self, keyrock_login, push_context):
-        fiware_authenticate_from_jwt('username', 'password')
+    def test_fiware_authenticate_from_jwt_calls_keyrock_login(self, keyrock_login, push_context_fiware):
+        fiware_authenticate_from_jwt('username@email.com', 'password')
 
-        keyrock_login.assert_called_once_with('username', 'password')
+        keyrock_login.assert_called_once_with('username@email.com', 'password')
 
-    def test_keyrock_response(self, push_context):
-        import ipdb; ipdb.set_trace()
-        unauthorized_response = keyrock_client.keyrock_login('dsa','dsa')
-        authorized_response = keyrock_client.keyrock_login('idm_user', 'idm')
-
-        keyrock_client.validate_api_token()
-        user_id = keyrock_client.find_user_id_by_email('idm')
-
-        assert_that(False)
+    # def test_keyrock_response(self, push_context):
+    #     import ipdb; ipdb.set_trace()
+    #     unauthorized_response = keyrock_client.keyrock_login('dsa','dsa')
+    #     authorized_response = keyrock_client.keyrock_login('idm_user', 'idm')
+    #
+    #     keyrock_client.validate_api_token()
+    #     user_id = keyrock_client.find_user_id_by_email('idm')
+    #
+    #     assert_that(False)
 
 
 KEYSTONE_VALID_AUTH_RESPONSE = {u'token': {u'audit_ids': [u'-RlnqqgXQWSDxL9gK7ceuw'],

@@ -87,14 +87,16 @@ class TestUserModels(object):
         assert_that(e_info.value.msg, is_(models.User.USER_ERROR_PASSWORD_TOO_SHORT))
         assert_that(user, none())
 
-    def test_user_model_repr(self):
+    def test_user_model_repr(self, session):
         user = models.User(
             username='Username',
             email='test@email.com',
             password='password',
         )
+        session.add(user)
+        session.commit()
 
-        assert_that(str(user), is_('<User: Username>'))
+        assert_that(str(user), is_('<User 1: Username - test@email.com>'))
 
 
     def test_role_model(False, session):
