@@ -100,7 +100,8 @@ keyrock_client = KeyrockClient()
 
 
 def fiware_authenticate_from_jwt(username, password):
-    if not current_app.config.get('FIWARE_INSTALLED'):
+    if current_app.config.get('FIWARE_INSTALLED') is not True:
+        current_app.logger.debug('Fiware not enabled, exiting...')
         return
     keyrock_user_id = None
     if keyrock_client.keyrock_login(username, password).status_code == 201:

@@ -60,7 +60,7 @@ orion_client = OrionClient()
 
 
 def fiware_send_video_context_info(video):
-    if not current_app.config.get('FIWARE_INSTALLED'):
+    if current_app.config.get('FIWARE_INSTALLED') is not True:
         return
     if video.lat and video.lon:
         current_app.logger.debug('Sending Orion new video context info')

@@ -34,7 +34,9 @@ def create_app(package_name, package_path, settings_override=None,
     app = Flask(package_name)
     app.config.from_object('videona_platform.default_settings')
     app.config.from_object(settings_override)
-    if app.config.get('FIWARE_INSTALLED'):
+    app.logger.debug('Fiware installed is %s ' % app.config.get('FIWARE_INSTALLED'))
+    if app.config.get('FIWARE_INSTALLED') is True:
+        app.logger.debug('Fiware enabled, loading fiware settings...')
         app.config.from_object(fiware_settings)
 
     # Initialize extensions

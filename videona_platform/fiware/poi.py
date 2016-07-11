@@ -64,7 +64,7 @@ poi_client = POIClient()
 
 
 def fiware_send_video_poi(video):
-    if not current_app.config.get('FIWARE_INSTALLED'):
+    if current_app.config.get('FIWARE_INSTALLED') is not True:
         return
     if video.lat and video.lon:
         data = {'name': video.id, 'description': video.title,
