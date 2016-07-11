@@ -10,7 +10,7 @@ from flask_jwt import jwt_required
 
 from videona_platform.core import VideonaError
 from videona_platform.factory import user_datastore
-from videona_platform.users.user_service import UserService
+from videona_platform.users.user_service import UserService, UserRegistrationError
 
 users = UserService(user_datastore)
 
@@ -28,6 +28,8 @@ def register_user():
         password = json_data['password']
         users.register(email=email, password=password)
         return jsonify({'result': STATUS_USER_CREATED})
+    except UserRegistrationError as registration_error:
+        return jsonify(dict(error=registration_error.msg)), 200
     except KeyError:
         raise VideonaError(ERROR_MISSING_PARAMETERS)
 

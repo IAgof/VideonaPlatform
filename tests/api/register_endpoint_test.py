@@ -17,6 +17,7 @@ from videona_platform.api.users import register_user, ERROR_MISSING_PARAMETERS
 from videona_platform.core import VideonaError
 from videona_platform.users import models as user_models
 from tests.factories import UserFactory
+from videona_platform.users.user_service import UserRegistrationError
 
 A_VALID_MAIL = 'ovidio@videona.com'
 A_VALID_PASSWORD = 'azerty'
@@ -61,8 +62,8 @@ class TestRegisterEndpoint(object):
                                content_type='application/json')
 
         assert_that(user_models.User.query.count(), is_(1))
-        assert_that(response.status_code, is_(400))
-        assert_that(response.json['error'], is_('User already exists'))
+        assert_that(response.status_code, is_(200))
+        assert_that(response.json['error'], is_(UserRegistrationError.ERROR_USER_ALREADY_EXISTS))
 
     def test_register_endpoint_returns_200_if_no_error(self, push_context, session, client):
         email = A_VALID_MAIL

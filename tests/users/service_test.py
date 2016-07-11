@@ -10,7 +10,7 @@ from hamcrest import *
 import mock
 
 from tests.factories import UserFactory
-from videona_platform.users.user_service import UserService
+from videona_platform.users.user_service import UserService, UserRegistrationError
 from videona_platform.api.users import users
 from videona_platform.users import models as users_models
 from videona_platform.core import VideonaError, Service
@@ -40,7 +40,7 @@ class TestUserService(object):
         with pytest.raises(VideonaError) as e_info:
             users.register(email, password)
 
-        assert_that(e_info.value.msg, is_(UserService.ERROR_USER_ALREADY_EXISTS))
+        assert_that(e_info.value.msg, is_(UserRegistrationError.ERROR_USER_ALREADY_EXISTS))
         assert_that(users_models.User.query.count(), is_(1))
 
     def test_register_handles_empty_username(self, push_context, session):
