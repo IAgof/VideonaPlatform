@@ -105,9 +105,9 @@ class TestAPIAppSetUp(object):
     @mock.patch('videona_platform.promo_codes.promo_codes_service.promo_codes_service.validate_code')
     def test_promo_codes_blueprint_validate_route(self, validate_code, app, session, client):
         validate_code.return_value = PromoCodeFactory()
-        post_response = client.post(url_for('promo_codes.validate_promo_code', code='xfg.lsdf903'),
+        post_response = client.post(url_for('promo_codes.validate_promo_code', code_string='xfg.lsdf903'),
                                     content_type='application/json')
-        get_response = client.get(url_for('promo_codes.validate_promo_code', code='xfg.lsdf903'))
+        get_response = client.get(url_for('promo_codes.validate_promo_code', code_string='xfg.lsdf903'))
 
         assert_that(get_response.status_code, is_(200))
         assert_that(post_response.status_code, is_(405))

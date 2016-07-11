@@ -16,6 +16,7 @@ from videona_platform.api.users import users_blueprint
 from videona_platform.api.videos import videos_blueprint
 from videona_platform.core import VideonaError
 from videona_platform.helpers import JSONEncoder
+from videona_platform.promo_codes.promo_codes_service import PromoCodeValidationError
 
 
 def create_app(settings_override=None, register_security_blueprint=False):
@@ -25,6 +26,7 @@ def create_app(settings_override=None, register_security_blueprint=False):
     app.register_blueprint(users_blueprint)
     app.register_blueprint(videos_blueprint)
     app.register_blueprint(promo_codes_blueprint)
+    # app.errorhandler(PromoCodeValidationError)(on_result_error_returns_200)
     factory.jwt.init_app(app)
 
     # Set the default JSON encoder
@@ -44,3 +46,7 @@ def on_videona_error(videona_error):
 
 def on_404(args):
     return jsonify(dict(error='Not found')), 404
+
+
+def on_result_error_returns_200(videona_error):
+    return jsonify(dict(error=videona_error.msg)), 200
