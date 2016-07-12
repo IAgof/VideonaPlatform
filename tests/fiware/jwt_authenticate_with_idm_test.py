@@ -20,6 +20,7 @@ class TestJWTAuthenticationIDM(object):
 
         fiware_authenticate_from_jwt.assert_called_once_with('username@email.com', 'password')
 
+    @mock.patch('videona_platform.fiware.keyrock.keyrock_client.find_user_id_by_email', mock.Mock(return_value=None))
     @mock.patch('videona_platform.factory.fiware_authenticate_from_jwt', mock.Mock())
     @mock.patch('videona_platform.fiware.keyrock.keyrock_client.keyrock_login')
     def test_fiware_authenticate_from_jwt_calls_keyrock_login(self, keyrock_login, push_context_fiware):
