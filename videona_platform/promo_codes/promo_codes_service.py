@@ -6,6 +6,8 @@
     PromoCodes Service
 """
 from datetime import datetime
+import string
+import random
 
 from videona_platform.core import Service, VideonaError
 from videona_platform.promo_codes import models
@@ -36,6 +38,10 @@ class PromoCodesService(Service):
     def __validate_code_expiration(self, found_code):
         if found_code is not None and found_code.expires_at is not None and found_code.expires_at < datetime.utcnow():
             raise PromoCodeValidationError(PromoCodeValidationError.MSG_CODE_HAS_EXPIRED)
+
+    @staticmethod
+    def generate_code_string(size=10, chars=string.ascii_uppercase + string.digits + '.' + string.ascii_lowercase):
+        return ''.join(random.choice(chars) for _ in range(size))
 
 
 promo_codes_service = PromoCodesService()
