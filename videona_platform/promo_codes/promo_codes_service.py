@@ -5,7 +5,7 @@
 
     PromoCodes Service
 """
-from  datetime import datetime
+from datetime import datetime
 
 from videona_platform.core import Service, VideonaError
 from videona_platform.promo_codes import models
@@ -26,7 +26,7 @@ class PromoCodesService(Service):
             raise PromoCodeValidationError(PromoCodeValidationError.MSG_CODE_NOT_FOUND)
         self.__validate_code_redeemed(found_code)
         self.__validate_code_expiration(found_code)
-        self.update(found_code, redeemed_by=validated_by, redeemed=True)
+        self.update(found_code, redeemed_by=validated_by, redeemed=True, redeemed_at=datetime.utcnow())
         return found_code
 
     def __validate_code_redeemed(self, code):

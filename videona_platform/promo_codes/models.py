@@ -14,6 +14,7 @@ class PromoCode(db.Model):
     code = db.Column(db.String(50), unique=True, nullable=False, index=True)
     campaign = db.Column(db.String(50))
     redeemed = db.Column(db.Boolean(), default=False)
+    redeemed_at = db.Column(db.DateTime())
     created_at = db.Column(db.DateTime(), default=datetime.utcnow())
     expires_at = db.Column(db.DateTime())
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))

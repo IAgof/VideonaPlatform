@@ -21,12 +21,14 @@ class TestPromoCodeModel(object):
         now = datetime.utcnow()
         fake_now = datetime(2015, 1, 12, 17, 34, 47)  # freezgun isn't working...
         expiration_day = datetime(2020, 1, 12)
+        redeemed_day = datetime(2016, 1, 12)
         code = 'fiakunfk543iueh32nae2wiukfn423'
         promo_code = models.PromoCode(
             code=code,
             expires_at=expiration_day,
             campaign='wolder',
-            redeemed=False
+            redeemed=False,
+            redeemed_at=redeemed_day
         )
         session.add(promo_code)
         session.commit()
@@ -39,6 +41,7 @@ class TestPromoCodeModel(object):
         assert_that(saved_promo_code.expires_at, is_(expiration_day))
         assert_that(saved_promo_code.campaign, is_('wolder'))
         assert_that(saved_promo_code.redeemed, is_(False))
+        assert_that(saved_promo_code.redeemed_at, is_(redeemed_day))
 
     def test_promo_code_has_redeemed_by(self, session):
         user = UserFactory()
