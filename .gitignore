@@ -79,3 +79,9 @@ videona_platform/frontend/static/css/
 
 # Instance specific data
 .local_data
+
+# Ansible provisioning
+playbook.retry
+
+# Docker web service env file
+.env
