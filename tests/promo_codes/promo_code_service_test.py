@@ -6,6 +6,7 @@
     PromoCode service tests
 """
 import pytest
+from freezegun.api import freeze_time
 from hamcrest import *
 import mock
 
@@ -63,6 +64,17 @@ class TestPromoCodesService(object):
         returned_code = promo_codes_service.validate_code(A_CODE_STRING, None)
 
         assert_that(returned_code.redeemed, is_(True))
+
+    @freeze_time('2016-01-12 17:34:47+00:00')
+    @mock.patch('videona_platform.core.Service.first')
+    def test_validate_sets_redeemed_at_if_found_code(self, first, session):
+        fake_now = datetime(2016, 1, 12, 17, 34, 47)  # freezgun isn't working...
+        code = PromoCodeFactory(redeemed=False)
+        first.return_value = code
+
+        returned_code = promo_codes_service.validate_code(A_CODE_STRING, None)
+
+        assert_that(returned_code.redeemed_at, is_(fake_now))
 
     @mock.patch('videona_platform.core.Service.first')
     def test_validate_raises_error_if_code_has_expired(self, first, session):
