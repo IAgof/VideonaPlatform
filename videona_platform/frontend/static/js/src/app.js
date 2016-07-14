@@ -51,6 +51,11 @@ const PLAYLIST_AWS = [
     [ "https://s3.amazonaws.com/tiedots/clips/V_EDIT_20160310_163353.mp4", ],
 ];
 
+const HEADER_SLIDER = [ "http://videona.com/wp-content/uploads/2016/06/head-web.jpg",
+    "http://videona.com/wp-content/uploads/2016/06/head-web-2.jpg",
+    "http://videona.com/wp-content/uploads/2016/06/head-web-3.jpg",
+    "http://videona.com/wp-content/uploads/2016/06/head-web-4.jpg" ]
+
 //const PLAYLIST_LOCAL = [
 //    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182238.mp4", ],
 //    [ "http://localhost:8000/frontend/static/img/clips/VID_20160303_182251.mp4", ],
@@ -93,9 +98,9 @@ if (loadedStates.includes(document.readyState) && document.body) {
 }
 
 function run() {
-    var auth_block = document.getElementsByClassName('navigation-bar__auth-block')[0]
-    ReactDOM.render(<SearchField />, document.getElementsByClassName('search-form-container')[0]);
-    ReactDOM.render(<VideoExploreBackground />, document.getElementsByClassName('explore-header__video-container')[0]);
-    ReactDOM.render(<VideoExplore />, document.getElementsByClassName('article-content')[0])
+    var auth_block = $('.navigation-bar__auth-block')[0]
+    ReactDOM.render(<SearchField />, $('.search-form-container')[0]);
+    ReactDOM.render(<VideoExploreBackground />, $('.explore-header__video-container')[0]);
+    ReactDOM.render(<VideoExplore />, $('.article-content')[0])
     ReactDOM.render(<LoginDialog />, auth_block)
 }
