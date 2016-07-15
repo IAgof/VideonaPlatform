@@ -11,7 +11,7 @@ from datetime import timedelta
 DEBUG = os.environ.get('DEBUG', False)
 SECRET_KEY = os.environ.get('SECRET_KEY', 'super-secret-key')
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@postgres:5432/postgres'
+SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI', 'postgresql://postgres:postgres@postgres:5432/postgres')
 CELERY_BROKER_URL = 'redis://33.33.33.10:6379/0'
 
 MAIL_DEFAULT_SENDER = 'info@videona.com'

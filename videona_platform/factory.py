@@ -5,7 +5,7 @@
 
     Videona Platform app Factory
 """
-from flask import Flask
+from flask import Flask, current_app
 from flask_jwt import JWT
 from flask_security import SQLAlchemyUserDatastore
 from flask_security.utils import verify_password
@@ -54,6 +54,7 @@ def create_app(package_name, package_path, settings_override=None,
 
 
 def authenticate(username, password):
+    current_app.logger.info('- authenticating user -')
     print '- authenticating user -'
     user = user_datastore.find_user(email=username)
     if user and verify_password(password, user.password):

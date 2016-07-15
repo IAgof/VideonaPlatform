@@ -13,20 +13,19 @@ services:
     build: ./
     entrypoint: /usr/src/app/pip-installer.sh
 
-  web-manage:
+  web-manage.prod:
     build:
       context: .
       dockerfile: ./Dockerfile.admin
-    links:
-      - postgres:postgres
+    env_file: .env-prod
     entrypoint: python /usr/src/app/manage.py
 
   web-manage.local:
     build:
       context: .
       dockerfile: ./Dockerfile.admin
-    links:
-      - postgres:postgres
+#    links:
+#      - postgres:postgres
     volumes:
       - ./:/usr/src/app/
     entrypoint: python /usr/src/app/manage.py

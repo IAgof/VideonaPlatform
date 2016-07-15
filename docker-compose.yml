@@ -5,9 +5,9 @@ services:
     build: ./
     expose:
       - "8000"
-    links:
-      - postgres:postgres
-    env_file: .env
+#    links:
+#      - postgres:postgres
+    env_file: .env-prod
     environment:
       - FIWARE_INSTALLED=False
     command: /usr/src/app/run_project.sh
@@ -24,16 +24,16 @@ services:
     links:
       - web:web
 
-  data:
-    image: postgres:latest
-    volumes:
-      - /var/lib/postgresql
-    command: "true"
-
-  postgres:
-    restart: always
-    image: postgres:latest
-    volumes_from:
-      - data
-    ports:
-      - "5432:5432"
+#  data:
+#    image: postgres:latest
+#    volumes:
+#      - /var/lib/postgresql
+#    command: "true"
+#
+#  postgres:
+#    restart: always
+#    image: postgres:latest
+#    volumes_from:
+#      - data
+#    ports:
+#      - "5432:5432"
