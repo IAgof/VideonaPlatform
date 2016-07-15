@@ -35,27 +35,24 @@ header {
     */
 }
 
-/*
-navigation-bar__video
-*/
 .navigation-bar__logo {
     @include span(2 of 12);
     @include breakpoint(phablet) {
-        @include span(4 of 12);
+        @include span(2 of 12);
     }
 }
 
-.navigation-bar__slogan {
+.navigation-bar__navigation-menu {
     @include span(5 of 12);
     @include breakpoint(phablet) {
-        @include span(4 of 12);
+        @include span(7 of 12);
     }
 }
 
 .navigation-bar__auth-block {
     @include span(5 of 12 last);
     @include breakpoint(phablet) {
-        @include span(4 of 12 last);
+        @include span(3 of 12 last);
     }
     text-align: right;
 }
@@ -79,12 +76,39 @@ navigation-bar__video
 
 @import "vars";
 
+.navigation-menu {
+    display: none;
+    @include breakpoint(phablet) {
+        display: inline;
+    }
+}
+
+.section-link {
+    display: inline-block;
+    margin-left: 10px;
+    padding: 0.7em;
+    color: white;
+    font-weight: 500;
+}
+
+a.section-link:hover {
+    color: $color_primary_light_bg;
+}
+
+
 .navigation-bar__auth-block {
     .login-button-container {
         display: None;
         @include breakpoint(phablet) {
             display: inline-block;
         }
+    }
+}
+
+header {
+    height: $header-size-px_medium;
+    @include breakpoint(desktop) {
+        height: $header-size-px;
     }
 }
 
@@ -96,6 +120,8 @@ navigation-bar__video
     left: 0;
     width: 100%;
     height: 350px;
+    height: $header-size-px;
+    height: 100%;
     @include transition(width, .5s, ease-in);
     background-image: url("http://videona.com/wp-content/uploads/2016/06/head-web-2.jpg");
     background-size: cover;
